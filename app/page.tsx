@@ -491,8 +491,9 @@ const PAGE_MARKUP = `
             <h3>Reach us</h3>
             <ul class="contact-list">
               <li><strong>Location:</strong> Munich, Germany</li>
-              <li><strong>Phone / WhatsApp:</strong> +49 000 000000</li>
-              <li><strong>Email:</strong> info@cleanx-reinigung.de</li>
+              <li><strong>Phone / WhatsApp:</strong> +49 160 95029314</li>
+              <li><strong>Email:</strong> cleanx.munchen@gmail.com
+</li>
             </ul>
           </div>
 
