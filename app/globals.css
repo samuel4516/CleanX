@@ -481,6 +481,12 @@ textarea {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+@media (min-width: 1081px) {
+  .services-grid > .service-card:last-child:nth-child(3n + 1) {
+    grid-column: 2;
+  }
+}
+
 .service-card {
   border-radius: var(--radius-lg);
   padding: 1.5rem;
