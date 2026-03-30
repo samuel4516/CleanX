@@ -25,18 +25,11 @@ export default function ServicePageTemplate({
       <section className="section service-page-hero">
         <div className="container service-page-grid">
           <div className="service-page-copy">
-            <Link className="service-back-link" href="/">
-              ← Back to Home
-            </Link>
-            <span className="eyebrow">Munich home services</span>
             <h1>{title}</h1>
             <p>{subtitle}</p>
             <div className="hero-actions">
               <Link className="btn btn-primary" href="/#booking">
                 Get a Quote
-              </Link>
-              <Link className="btn btn-secondary" href="/">
-                Back to Home
               </Link>
             </div>
           </div>
