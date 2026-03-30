@@ -532,8 +532,8 @@ const PAGE_MARKUP = `
           <h3>Contact info</h3>
           <ul class="footer-links">
             <li>Munich, Germany</li>
-            <li>+49 000 000000</li>
-            <li>info@cleanx-reinigung.de</li>
+            <li>+49 160 95029314</li>
+            <li>cleanx.munchen@gmail.com</li>
           </ul>
         </div>
       </div>
