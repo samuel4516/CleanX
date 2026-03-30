@@ -11,7 +11,7 @@ const ENGLISH_MARKUP = `
           <span class="brand-mark">CX</span>
           <span class="brand-copy">
             <strong>CleanX Reinigung</strong>
-            <small>Munich upholstery care</small>
+            <small>Munich home services</small>
           </span>
         </a>
 
@@ -40,12 +40,10 @@ const ENGLISH_MARKUP = `
 
         <nav class="site-nav" id="site-nav" aria-label="Primary">
           <a href="#services">Services</a>
-          <a href="#why-us">Why Us</a>
-          <a href="#results">Results</a>
+          <a href="#results">Before &amp; After</a>
           <a href="#reviews">Reviews</a>
-          <a href="#booking">Booking</a>
-          <a href="#contact">Contact</a>
-          <a class="nav-cta" href="#booking">Book Now</a>
+          <a href="#booking">Get a Quote</a>
+          <a class="nav-cta" href="#booking">Book Service</a>
           <button class="lang-toggle" type="button" data-language-toggle="true" aria-label="Switch language">DE</button>
         </nav>
       </div>
@@ -55,23 +53,23 @@ const ENGLISH_MARKUP = `
       <section class="hero section">
         <div class="container hero-grid">
           <div class="hero-copy reveal">
-            <span class="eyebrow">Trusted local cleaning service in Munich</span>
-            <h1>Professional Upholstery &amp; Carpet Cleaning in Munich</h1>
+            <span class="eyebrow">Premium local team in Munich</span>
+            <h1>Cleaning &amp; Home Services in Munich</h1>
             <p class="hero-text">
-              We clean sofas, carpets, mattresses, dining chairs, and delicate
-              upholstery with professional equipment, gentle products, and
-              reliable service that fits around your schedule.
+              Book trusted cleaning and practical home services with one reliable
+              team. We offer fast booking, transparent estimates, careful work,
+              and quality results for homes and small businesses across Munich.
             </p>
 
             <div class="hero-actions">
               <a class="btn btn-primary" href="#booking">Get a Quote</a>
-              <a class="btn btn-secondary" href="#contact">Book Now</a>
+              <a class="btn btn-secondary" href="#booking">Book Now</a>
             </div>
 
             <ul class="hero-highlights" aria-label="Key service highlights">
-              <li>Photo-based price estimate</li>
-              <li>Private homes and small businesses</li>
-              <li>Careful, fabric-safe cleaning methods</li>
+              <li>Fast response and flexible appointments</li>
+              <li>Transparent estimates before work starts</li>
+              <li>Reliable local service for homes and rentals</li>
             </ul>
           </div>
 
@@ -84,33 +82,33 @@ const ENGLISH_MARKUP = `
                 </span>
               </div>
 
-              <h2>Photo estimate in just a few steps</h2>
+              <h2>Clear estimates in just a few steps</h2>
               <p>
-                Send one or more photos of the item you want cleaned and we’ll
-                review the condition, stains, and fabric type before giving you
-                a price estimate.
+                Tell us what you need, upload one or more photos when helpful,
+                and receive a clear estimate before booking. We keep communication
+                simple, quick, and professional.
               </p>
 
               <div class="hero-metrics">
                 <article>
                   <strong>Same-day</strong>
-                  <span>reply for many requests</span>
+                  <span>response for many requests</span>
                 </article>
                 <article>
                   <strong>Munich-wide</strong>
-                  <span>local service coverage</span>
+                  <span>coverage across neighborhoods</span>
                 </article>
                 <article>
-                  <strong>Safe care</strong>
-                  <span>for upholstery and carpets</span>
+                  <strong>Multi-service</strong>
+                  <span>cleaning and practical home help</span>
                 </article>
               </div>
             </div>
 
             <div class="hero-card hero-card-note">
               <p>
-                Ideal for sofa refreshes, mattress deep cleaning, carpet care,
-                stain treatment, and regular property maintenance.
+                From upholstery and deep cleaning to move-out cleans, windows,
+                post-renovation jobs, small repairs, and furniture assembly.
               </p>
             </div>
           </div>
@@ -121,15 +119,15 @@ const ENGLISH_MARKUP = `
         <div class="container">
           <div class="section-heading reveal">
             <span class="eyebrow">Our services</span>
-            <h2>Specialized cleaning for the surfaces you use every day</h2>
+            <h2>One trusted team for cleaning and home services in Munich</h2>
             <p>
-              Practical, careful cleaning solutions for homes, rentals, offices,
-              studios, and waiting areas across Munich.
+              Choose the service you need and get a clear quote before booking.
+              Every service card below leads to a dedicated page with details.
             </p>
           </div>
 
           <div class="services-grid">
-            <article class="service-card reveal">
+            <a class="service-card service-link reveal" href="/upholstery-cleaning">
               <div class="service-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" role="img">
                   <path
@@ -137,14 +135,14 @@ const ENGLISH_MARKUP = `
                   />
                 </svg>
               </div>
-              <h3>Sofa cleaning</h3>
+              <h3>Upholstery Cleaning</h3>
               <p>
-                Deep cleaning for fabric sofas to lift dirt, odors, and daily
-                buildup while protecting the material.
+                Sofa, chair, and mattress care with fabric-safe products and
+                deep extraction methods.
               </p>
-            </article>
+            </a>
 
-            <article class="service-card reveal">
+            <a class="service-card service-link reveal" href="/deep-cleaning">
               <div class="service-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" role="img">
                   <path
@@ -152,14 +150,14 @@ const ENGLISH_MARKUP = `
                   />
                 </svg>
               </div>
-              <h3>Corner sofa cleaning</h3>
+              <h3>Deep Cleaning</h3>
               <p>
-                Thorough cleaning for large L-shaped and sectional sofas, with
-                attention to seams, corners, and heavy-use areas.
+                Intensive home cleaning for kitchens, bathrooms, floors, and
+                neglected areas that need full attention.
               </p>
-            </article>
+            </a>
 
-            <article class="service-card reveal">
+            <a class="service-card service-link reveal" href="/window-cleaning">
               <div class="service-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" role="img">
                   <path
@@ -167,14 +165,14 @@ const ENGLISH_MARKUP = `
                   />
                 </svg>
               </div>
-              <h3>Mattress cleaning</h3>
+              <h3>Window Cleaning</h3>
               <p>
-                Hygienic mattress treatment that helps reduce dust, stains, and
-                freshness issues in sleeping areas.
+                Interior and accessible exterior window cleaning for brighter
+                rooms and streak-free glass surfaces.
               </p>
-            </article>
+            </a>
 
-            <article class="service-card reveal">
+            <a class="service-card service-link reveal" href="/move-out-cleaning">
               <div class="service-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" role="img">
                   <path
@@ -182,14 +180,14 @@ const ENGLISH_MARKUP = `
                   />
                 </svg>
               </div>
-              <h3>Carpet cleaning</h3>
+              <h3>Move-Out Cleaning</h3>
               <p>
-                Refresh wall-to-wall carpets and rugs with targeted treatment for
-                traffic marks, dust, and surface stains.
+                End-of-tenancy cleaning focused on handover readiness for
+                renters, landlords, and property managers.
               </p>
-            </article>
+            </a>
 
-            <article class="service-card reveal">
+            <a class="service-card service-link reveal" href="/post-renovation-cleaning">
               <div class="service-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" role="img">
                   <path
@@ -197,14 +195,14 @@ const ENGLISH_MARKUP = `
                   />
                 </svg>
               </div>
-              <h3>Upholstery cleaning</h3>
+              <h3>Post-Renovation Cleaning</h3>
               <p>
-                Careful cleaning for chairs, benches, headboards, and fabric
-                furniture used in homes and commercial spaces.
+                Dust and residue removal after renovation, painting, or repair
+                work so your space is ready to use.
               </p>
-            </article>
+            </a>
 
-            <article class="service-card reveal">
+            <a class="service-card service-link reveal" href="/painting-repairs">
               <div class="service-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" role="img">
                   <path
@@ -212,12 +210,25 @@ const ENGLISH_MARKUP = `
                   />
                 </svg>
               </div>
-              <h3>Stain removal</h3>
+              <h3>Painting &amp; Small Repairs</h3>
               <p>
-                Focused treatment for drink spills, food stains, and marked areas
-                with methods selected for the specific fabric.
+                Small wall touch-ups, patching, and practical fixes to improve
+                the look and function of your space.
               </p>
-            </article>
+            </a>
+
+            <a class="service-card service-link reveal" href="/furniture-assembly">
+              <div class="service-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" role="img">
+                  <path d="M5 7h14v4H5zM6 11h12v8H6zM9 7V5m6 2V5m-6 12v2m6-2v2" />
+                </svg>
+              </div>
+              <h3>Furniture Assembly</h3>
+              <p>
+                Professional assembly for flat-pack furniture, shelves, and
+                home-office setups with careful handling.
+              </p>
+            </a>
           </div>
         </div>
       </section>
@@ -226,21 +237,20 @@ const ENGLISH_MARKUP = `
         <div class="container why-grid">
           <div class="section-heading reveal">
             <span class="eyebrow">Why choose us</span>
-            <h2>Built around trust, care, and a smooth booking experience</h2>
+            <h2>Built for reliable service, clear communication, and clean results</h2>
             <p>
-              Local customers usually want two things: confidence in the result
-              and a quick way to get started. We designed the service around
-              both.
+              We combine cleaning expertise with practical home-service support,
+              so you can solve multiple tasks with one trusted local team.
             </p>
           </div>
 
           <div class="reasons-card reveal">
             <ul class="reasons-list">
-              <li>Professional equipment for deep and effective cleaning</li>
-              <li>Safe and gentle cleaning products for daily-use fabrics</li>
-              <li>Local service throughout Munich with reliable scheduling</li>
-              <li>Reliable and careful work in homes and small businesses</li>
-              <li>Price estimate by photo before booking is confirmed</li>
+              <li>Fast response and straightforward booking process</li>
+              <li>Clear estimates with transparent scope of work</li>
+              <li>Reliable local service throughout Munich</li>
+              <li>Careful work standards for homes and commercial spaces</li>
+              <li>Flexible appointments based on your schedule</li>
             </ul>
           </div>
         </div>
@@ -250,10 +260,10 @@ const ENGLISH_MARKUP = `
         <div class="container">
           <div class="section-heading reveal">
             <span class="eyebrow">Before &amp; after</span>
-            <h2>Cleaning results customers can see right away</h2>
+            <h2>Visible improvements across cleaning and home-service jobs</h2>
             <p>
-              Example placeholder visuals for common upholstery and carpet jobs,
-              presented in a responsive grid.
+              Example placeholder visuals showing the kind of detail and finish
+              clients expect from our team in Munich.
             </p>
           </div>
 
@@ -267,8 +277,8 @@ const ENGLISH_MARKUP = `
                   <span>After</span>
                 </figure>
               </div>
-              <h3>Fabric sofa refresh</h3>
-              <p>Lifted surface dullness and refreshed the seating area.</p>
+              <h3>Upholstery refresh</h3>
+              <p>Improved appearance and freshness on daily-use seating.</p>
             </article>
 
             <article class="gallery-card reveal">
@@ -280,8 +290,8 @@ const ENGLISH_MARKUP = `
                   <span>After</span>
                 </figure>
               </div>
-              <h3>Living room carpet cleaning</h3>
-              <p>Reduced visible traffic marks and improved overall tone.</p>
+              <h3>Deep cleaning result</h3>
+              <p>Reduced buildup and restored a cleaner overall finish.</p>
             </article>
 
             <article class="gallery-card reveal">
@@ -293,8 +303,8 @@ const ENGLISH_MARKUP = `
                   <span>After</span>
                 </figure>
               </div>
-              <h3>Mattress deep clean</h3>
-              <p>Freshened the fabric surface with targeted care.</p>
+              <h3>Post-renovation cleanup</h3>
+              <p>Removed dust residue and prepared the space for handover.</p>
             </article>
 
             <article class="gallery-card reveal">
@@ -306,8 +316,8 @@ const ENGLISH_MARKUP = `
                   <span>After</span>
                 </figure>
               </div>
-              <h3>Dining chair upholstery</h3>
-              <p>Improved appearance on high-touch seating upholstery.</p>
+              <h3>Window service finish</h3>
+              <p>Cleaner glass and brighter interior light after treatment.</p>
             </article>
           </div>
         </div>
@@ -317,10 +327,10 @@ const ENGLISH_MARKUP = `
         <div class="container">
           <div class="section-heading reveal">
             <span class="eyebrow">Customer reviews</span>
-            <h2>Kind words from local clients in and around Munich</h2>
+            <h2>Trusted by households, tenants, and local businesses in Munich</h2>
             <p>
-              Trust matters when someone is coming into your home or workspace.
-              These review cards are styled to feel credible and reassuring.
+              Clients choose us for reliable planning, careful execution, and
+              clear communication from quote to completion.
             </p>
           </div>
 
@@ -333,18 +343,6 @@ const ENGLISH_MARKUP = `
               </p>
               <div class="testimonial-meta">
                 <strong>Anna Weber</strong>
-                <span>Sofa cleaning</span>
-              </div>
-            </article>
-
-            <article class="testimonial-card reveal">
-              <div class="stars" aria-label="5 star rating">★★★★★</div>
-              <p>
-                “Booking was easy, the photo estimate was helpful, and the
-                result on our office chairs was exactly what we hoped for.”
-              </p>
-              <div class="testimonial-meta">
-                <strong>Markus Hoffmann</strong>
                 <span>Upholstery cleaning</span>
               </div>
             </article>
@@ -352,24 +350,36 @@ const ENGLISH_MARKUP = `
             <article class="testimonial-card reveal">
               <div class="stars" aria-label="5 star rating">★★★★★</div>
               <p>
-                “Fast communication, on-time arrival, and a very visible
-                improvement on a large corner sofa with old stains.”
+                “We booked deep cleaning and window service for our office.
+                Communication was fast and the final result was excellent.”
               </p>
               <div class="testimonial-meta">
-                <strong>Sophie Keller</strong>
-                <span>Corner sofa cleaning</span>
+                <strong>Markus Hoffmann</strong>
+                <span>Deep cleaning + windows</span>
               </div>
             </article>
 
             <article class="testimonial-card reveal">
               <div class="stars" aria-label="5 star rating">★★★★★</div>
               <p>
-                “I liked how professional and calm the whole process felt. The
-                mattress cleaning was thorough and the room smelled fresh.”
+                “We needed move-out cleaning on short notice. The team was
+                punctual, careful, and the handover went smoothly.”
+              </p>
+              <div class="testimonial-meta">
+                <strong>Sophie Keller</strong>
+                <span>Move-out cleaning</span>
+              </div>
+            </article>
+
+            <article class="testimonial-card reveal">
+              <div class="stars" aria-label="5 star rating">★★★★★</div>
+              <p>
+                “After renovation, we booked post-construction cleaning and a
+                few small repairs. Everything looked ready to use the same day.”
               </p>
               <div class="testimonial-meta">
                 <strong>Daniel Schmid</strong>
-                <span>Mattress cleaning</span>
+                <span>Post-renovation + repairs</span>
               </div>
             </article>
           </div>
@@ -382,16 +392,16 @@ const ENGLISH_MARKUP = `
             <span class="eyebrow">Booking &amp; quote request</span>
             <h2>Send your details and photos for a fast estimate</h2>
             <p>
-              Upload one or more photos so we can review the size, material, and
-              condition. Price estimates are given after reviewing the photos.
+              Select the service you need, add any details, and upload photos
+              where helpful. We use this to send a clear, transparent estimate.
             </p>
 
             <div class="info-card">
               <h3>What helps us quote faster?</h3>
               <ul>
-                <li>Clear photos of the full item</li>
-                <li>Close-up images of stains or marked areas</li>
-                <li>Your preferred date and any access notes</li>
+                <li>Photos of the full room, item, or work area</li>
+                <li>Close-up images of problem spots or damaged areas</li>
+                <li>Your preferred date and key access information</li>
               </ul>
             </div>
           </div>
@@ -422,16 +432,17 @@ const ENGLISH_MARKUP = `
                 <label for="service-type">Service type</label>
                 <select id="service-type" name="serviceType" required>
                   <option value="">Select a service</option>
-                  <option value="Sofa cleaning">Sofa cleaning</option>
-                  <option value="Corner sofa cleaning">
-                    Corner sofa cleaning
+                  <option value="Upholstery Cleaning">Upholstery Cleaning</option>
+                  <option value="Deep Cleaning">Deep Cleaning</option>
+                  <option value="Window Cleaning">Window Cleaning</option>
+                  <option value="Move-Out Cleaning">Move-Out Cleaning</option>
+                  <option value="Post-Renovation Cleaning">
+                    Post-Renovation Cleaning
                   </option>
-                  <option value="Mattress cleaning">Mattress cleaning</option>
-                  <option value="Carpet cleaning">Carpet cleaning</option>
-                  <option value="Upholstery cleaning">
-                    Upholstery cleaning
+                  <option value="Painting &amp; Small Repairs">
+                    Painting &amp; Small Repairs
                   </option>
-                  <option value="Stain removal">Stain removal</option>
+                  <option value="Furniture Assembly">Furniture Assembly</option>
                 </select>
                 <small class="field-error" id="error-service-type"></small>
               </div>
@@ -454,7 +465,7 @@ const ENGLISH_MARKUP = `
                 id="message"
                 name="message"
                 rows="5"
-                placeholder="Tell us what needs cleaning, the size, any stains, and your location in Munich."
+                placeholder="Tell us what service you need, your location in Munich, and any details we should know."
               ></textarea>
             </div>
 
@@ -496,8 +507,8 @@ const ENGLISH_MARKUP = `
             <span class="eyebrow">Contact</span>
             <h2>CleanX Reinigung</h2>
             <p>
-              Local upholstery and carpet cleaning service for Munich homes,
-              rentals, studios, and small business spaces.
+              Local cleaning and home-services company for Munich apartments,
+              houses, rentals, offices, and commercial spaces.
             </p>
           </div>
 
@@ -506,8 +517,7 @@ const ENGLISH_MARKUP = `
             <ul class="contact-list">
               <li><strong>Location:</strong> Munich, Germany</li>
               <li><strong>Phone / WhatsApp:</strong> +49 160 95029314</li>
-              <li><strong>Email:</strong> cleanx.munchen@gmail.com
-</li>
+              <li><strong>Email:</strong> cleanx.munchen@gmail.com</li>
             </ul>
           </div>
 
@@ -639,6 +649,39 @@ const GERMAN_REPLACEMENTS: ReadonlyArray<readonly [string, string]> = [
   ["Quick links", "Schnellzugriff"],
   ["Get a Quote", "Angebot anfragen"],
   ["All rights reserved.", "Alle Rechte vorbehalten."],
+  ["Munich home services", "Münchner Hausservice"],
+  ["Before &amp; After", "Vorher &amp; Nachher"],
+  ["Book Service", "Service buchen"],
+  ["Premium local team in Munich", "Premium-Lokalteam in München"],
+  ["Cleaning &amp; Home Services in Munich", "Reinigungs- &amp; Hausservices in München"],
+  ["Fast response and flexible appointments", "Schnelle Rückmeldung und flexible Termine"],
+  ["Transparent estimates before work starts", "Transparente Angebote vor Arbeitsbeginn"],
+  ["Reliable local service for homes and rentals", "Zuverlässiger lokaler Service für Wohnungen und Mietobjekte"],
+  ["Clear estimates in just a few steps", "Klare Angebote in wenigen Schritten"],
+  ["response for many requests", "Rückmeldung bei vielen Anfragen"],
+  ["coverage across neighborhoods", "Abdeckung in vielen Stadtteilen"],
+  ["Multi-service", "Multi-Service"],
+  ["cleaning and practical home help", "Reinigung und praktische Haushaltshilfe"],
+  ["Our services", "Unsere Leistungen"],
+  ["One trusted team for cleaning and home services in Munich", "Ein verlässliches Team für Reinigungs- und Hausservices in München"],
+  ["Upholstery Cleaning", "Polsterreinigung"],
+  ["Deep Cleaning", "Tiefenreinigung"],
+  ["Window Cleaning", "Fensterreinigung"],
+  ["Move-Out Cleaning", "Auszugsreinigung"],
+  ["Post-Renovation Cleaning", "Reinigung nach Renovierung"],
+  ["Painting &amp; Small Repairs", "Malerarbeiten &amp; Kleinreparaturen"],
+  ["Furniture Assembly", "Möbelmontage"],
+  ["Why choose us", "Warum wir"],
+  ["Built for reliable service, clear communication, and clean results", "Ausgelegt auf verlässlichen Service, klare Kommunikation und saubere Ergebnisse"],
+  ["Fast response and straightforward booking process", "Schnelle Rückmeldung und unkomplizierte Buchung"],
+  ["Clear estimates with transparent scope of work", "Klare Angebote mit transparentem Leistungsumfang"],
+  ["Reliable local service throughout Munich", "Zuverlässiger lokaler Service in ganz München"],
+  ["Careful work standards for homes and commercial spaces", "Sorgfältige Arbeitsstandards für Wohn- und Gewerberäume"],
+  ["Flexible appointments based on your schedule", "Flexible Termine passend zu Ihrem Zeitplan"],
+  ["Visible improvements across cleaning and home-service jobs", "Sichtbare Verbesserungen bei Reinigungs- und Hausservice-Aufträgen"],
+  ["Trusted by households, tenants, and local businesses in Munich", "Vertrauenswürdig für Haushalte, Mieter und lokale Unternehmen in München"],
+  ["Select a service", "Leistung auswählen"],
+  ["Contact", "Kontakt"],
 ];
 
 const GERMAN_MARKUP = GERMAN_REPLACEMENTS.reduce((markup, [englishText, germanText]) => {
