@@ -189,6 +189,10 @@ textarea {
   transform: translateY(-1px);
 }
 
+.header-actions-mobile {
+  display: none;
+}
+
 .nav-cta {
   padding: 0.8rem 1.2rem;
   border-radius: 999px;
@@ -216,6 +220,33 @@ textarea {
 
 .lang-toggle:hover,
 .lang-toggle:focus-visible {
+  transform: translateY(-1px);
+  border-color: rgba(79, 134, 174, 0.48);
+  background: rgba(231, 240, 247, 0.8);
+}
+
+.lang-toggle-mobile {
+  display: none;
+  min-height: 38px;
+  min-width: 50px;
+  padding: 0.45rem 0.65rem;
+  border-radius: 12px;
+  border: 1px solid rgba(113, 134, 158, 0.22);
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--text);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease;
+}
+
+.lang-toggle-mobile:hover,
+.lang-toggle-mobile:focus-visible {
   transform: translateY(-1px);
   border-color: rgba(79, 134, 174, 0.48);
   background: rgba(231, 240, 247, 0.8);
@@ -922,6 +953,13 @@ textarea {
 }
 
 @media (max-width: 860px) {
+  .header-actions-mobile {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: auto;
+  }
+
   .site-nav {
     position: fixed;
     inset: var(--header-height) 1rem auto 1rem;
@@ -956,6 +994,13 @@ textarea {
     padding: 0.9rem 1rem;
     border-radius: 14px;
     text-align: left;
+    display: none;
+  }
+
+  .lang-toggle-mobile {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .site-nav a:hover,

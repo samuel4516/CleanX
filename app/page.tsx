@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 
+const LANGUAGE_STORAGE_KEY = "cleanx_language";
+
 const ENGLISH_MARKUP = `
     <header class="site-header" id="top">
       <div class="container header-inner">
@@ -13,17 +15,28 @@ const ENGLISH_MARKUP = `
           </span>
         </a>
 
-        <button
-          class="nav-toggle"
-          type="button"
-          aria-expanded="false"
-          aria-controls="site-nav"
-          aria-label="Open navigation"
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
+        <div class="header-actions-mobile">
+          <button
+            class="lang-toggle-mobile"
+            type="button"
+            data-language-toggle="true"
+            aria-label="Switch language"
+          >
+            DE
+          </button>
+
+          <button
+            class="nav-toggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="site-nav"
+            aria-label="Open navigation"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
 
         <nav class="site-nav" id="site-nav" aria-label="Primary">
           <a href="#services">Services</a>
@@ -33,7 +46,7 @@ const ENGLISH_MARKUP = `
           <a href="#booking">Booking</a>
           <a href="#contact">Contact</a>
           <a class="nav-cta" href="#booking">Book Now</a>
-          <button class="lang-toggle" type="button" id="lang-toggle" aria-label="Switch language">DE</button>
+          <button class="lang-toggle" type="button" data-language-toggle="true" aria-label="Switch language">DE</button>
         </nav>
       </div>
     </header>
@@ -638,11 +651,24 @@ export default function Home() {
   const pageMarkup = isGerman ? GERMAN_MARKUP : ENGLISH_MARKUP;
 
   useEffect(() => {
+    const storedLanguage = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
+    if (storedLanguage === "de") {
+      setIsGerman(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem(LANGUAGE_STORAGE_KEY, isGerman ? "de" : "en");
+  }, [isGerman]);
+
+  useEffect(() => {
     document.documentElement.lang = isGerman ? "de" : "en";
 
     const navToggle = document.querySelector<HTMLButtonElement>(".nav-toggle");
     const siteNav = document.querySelector<HTMLElement>(".site-nav");
-    const langToggle = document.getElementById("lang-toggle") as HTMLButtonElement | null;
+    const languageToggles = Array.from(
+      document.querySelectorAll<HTMLButtonElement>("[data-language-toggle='true']")
+    );
     const navLinks = Array.from(
       document.querySelectorAll<HTMLAnchorElement>('.site-nav a[href^="#"]')
     );
@@ -678,16 +704,18 @@ export default function Home() {
           switchAria: "Switch to German",
         };
 
-    if (langToggle) {
-      langToggle.textContent = isGerman ? "EN" : "DE";
-      langToggle.setAttribute("aria-label", text.switchAria);
-    }
+    languageToggles.forEach((toggle) => {
+      toggle.textContent = isGerman ? "EN" : "DE";
+      toggle.setAttribute("aria-label", text.switchAria);
+    });
 
     const handleLanguageToggle = () => {
       setIsGerman((previous) => !previous);
     };
 
-    langToggle?.addEventListener("click", handleLanguageToggle);
+    languageToggles.forEach((toggle) => {
+      toggle.addEventListener("click", handleLanguageToggle);
+    });
 
     if (preferredDateInput) {
       const localToday = new Date();
@@ -864,7 +892,9 @@ export default function Home() {
 
     return () => {
       navToggle?.removeEventListener("click", handleNavToggle);
-      langToggle?.removeEventListener("click", handleLanguageToggle);
+      languageToggles.forEach((toggle) => {
+        toggle.removeEventListener("click", handleLanguageToggle);
+      });
       photosInput?.removeEventListener("change", handlePhotoChange);
       bookingForm?.removeEventListener("submit", handleSubmit);
       document.body.classList.remove("nav-open");
