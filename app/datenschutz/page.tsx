@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import ServicePageHeader from "../components/service-page-header";
 
 export const metadata: Metadata = {
   title: "Datenschutzerklärung | CleanX Reinigung",
@@ -7,10 +8,12 @@ export const metadata: Metadata = {
 
 export default function DatenschutzPage() {
   return (
-    <main className="privacy-page section">
-      <div className="container privacy-container">
-        <article className="privacy-card">
-          <h1>Datenschutzerklärung</h1>
+    <>
+      <ServicePageHeader />
+      <main className="privacy-page section">
+        <div className="container privacy-container">
+          <article className="privacy-card">
+            <h1>Datenschutzerklärung</h1>
 
           <section>
             <h2>1. Verantwortlicher</h2>
@@ -155,8 +158,9 @@ export default function DatenschutzPage() {
               beschweren.
             </p>
           </section>
-        </article>
-      </div>
-    </main>
+          </article>
+        </div>
+      </main>
+    </>
   );
 }

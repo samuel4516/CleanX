@@ -907,6 +907,24 @@ textarea {
   letter-spacing: -0.03em;
 }
 
+.service-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 0.9rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-weight: 600;
+  opacity: 0.8;
+  transition: opacity 160ms ease, color 160ms ease;
+}
+
+.service-back-link:hover,
+.service-back-link:focus-visible {
+  opacity: 1;
+  color: var(--text);
+}
+
 .service-page-copy p {
   margin: 0;
   color: var(--muted);

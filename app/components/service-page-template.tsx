@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ServicePageHeader from "./service-page-header";
 
 type ServicePageTemplateProps = {
   title: string;
@@ -18,10 +19,15 @@ export default function ServicePageTemplate({
   whyChoose,
 }: ServicePageTemplateProps) {
   return (
-    <main className="service-page">
+    <>
+      <ServicePageHeader />
+      <main className="service-page">
       <section className="section service-page-hero">
         <div className="container service-page-grid">
           <div className="service-page-copy">
+            <Link className="service-back-link" href="/">
+              ← Back to Home
+            </Link>
             <span className="eyebrow">Munich home services</span>
             <h1>{title}</h1>
             <p>{subtitle}</p>
@@ -108,6 +114,7 @@ export default function ServicePageTemplate({
           </div>
         </div>
       </section>
-    </main>
+      </main>
+    </>
   );
 }

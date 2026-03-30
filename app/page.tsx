@@ -7,7 +7,7 @@ const LANGUAGE_STORAGE_KEY = "cleanx_language";
 const ENGLISH_MARKUP = `
     <header class="site-header" id="top">
       <div class="container header-inner">
-        <a class="brand" href="#top" aria-label="CleanX Reinigung home">
+        <a class="brand" href="/" aria-label="CleanX Reinigung home">
           <span class="brand-mark">CX</span>
           <span class="brand-copy">
             <strong>CleanX Reinigung</strong>
