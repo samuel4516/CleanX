@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-const PAGE_MARKUP = `
+const ENGLISH_MARKUP = `
     <header class="site-header" id="top">
       <div class="container header-inner">
         <a class="brand" href="#top" aria-label="CleanX Reinigung home">
@@ -33,6 +33,7 @@ const PAGE_MARKUP = `
           <a href="#booking">Booking</a>
           <a href="#contact">Contact</a>
           <a class="nav-cta" href="#booking">Book Now</a>
+          <button class="lang-toggle" type="button" id="lang-toggle" aria-label="Switch language">DE</button>
         </nav>
       </div>
     </header>
@@ -546,10 +547,138 @@ const PAGE_MARKUP = `
 
 `;
 
+const GERMAN_REPLACEMENTS: ReadonlyArray<readonly [string, string]> = [
+  ["Munich upholstery care", "Polsterpflege in München"],
+  ["Services", "Leistungen"],
+  ["Why Us", "Warum wir"],
+  ["Results", "Ergebnisse"],
+  ["Reviews", "Bewertungen"],
+  ["Booking", "Buchung"],
+  ["Contact info", "Kontaktinfo"],
+  ["Contact", "Kontakt"],
+  ["Book Now", "Jetzt buchen"],
+  ["Get a Quote", "Angebot anfragen"],
+  ["Trusted local cleaning service in Munich", "Verlässlicher lokaler Reinigungsservice in München"],
+  ["Professional Upholstery &amp; Carpet Cleaning in Munich", "Professionelle Polster- &amp; Teppichreinigung in München"],
+  [
+    "We clean sofas, carpets, mattresses, dining chairs, and delicate\n              upholstery with professional equipment, gentle products, and\n              reliable service that fits around your schedule.",
+    "Wir reinigen Sofas, Teppiche, Matratzen, Esszimmerstühle und empfindliche\n              Polster mit professioneller Ausrüstung, schonenden Mitteln und\n              zuverlässigem Service, der in Ihren Alltag passt.",
+  ],
+  ["Photo-based price estimate", "Preisangebot per Foto"],
+  ["Private homes and small businesses", "Privathaushalte und kleine Unternehmen"],
+  ["Careful, fabric-safe cleaning methods", "Sorgfältige, materialschonende Reinigungsmethoden"],
+  ["Fast response", "Schnelle Antwort"],
+  ["★ 4.9 local rating", "★ 4,9 lokale Bewertung"],
+  ["Photo estimate in just a few steps", "Preisangebot per Foto in wenigen Schritten"],
+  [
+    "Send one or more photos of the item you want cleaned and we’ll\n                review the condition, stains, and fabric type before giving you\n                a price estimate.",
+    "Senden Sie ein oder mehrere Fotos des zu reinigenden Objekts. Wir prüfen\n                Zustand, Flecken und Materialart, bevor wir ein Preisangebot erstellen.",
+  ],
+  ["Same-day", "Am selben Tag"],
+  ["reply for many requests", "Antwort bei vielen Anfragen"],
+  ["Munich-wide", "Ganz München"],
+  ["local service coverage", "lokale Serviceabdeckung"],
+  ["Safe care", "Schonende Reinigung"],
+  ["for upholstery and carpets", "für Polster und Teppiche"],
+  [
+    "Ideal for sofa refreshes, mattress deep cleaning, carpet care,\n                stain treatment, and regular property maintenance.",
+    "Ideal für Sofa-Auffrischungen, Matratzen-Tiefenreinigung, Teppichpflege,\n                Fleckenbehandlung und regelmäßige Objektpflege.",
+  ],
+  ["Our services", "Unsere Leistungen"],
+  ["Specialized cleaning for the surfaces you use every day", "Spezialisierte Reinigung für Flächen, die Sie täglich nutzen"],
+  [
+    "Practical, careful cleaning solutions for homes, rentals, offices,\n              studios, and waiting areas across Munich.",
+    "Praktische und sorgfältige Reinigungslösungen für Wohnungen, Mietobjekte,\n              Büros, Studios und Wartebereiche in ganz München.",
+  ],
+  ["Sofa cleaning", "Sofareinigung"],
+  ["Corner sofa cleaning", "Ecksofa-Reinigung"],
+  ["Mattress cleaning", "Matratzenreinigung"],
+  ["Carpet cleaning", "Teppichreinigung"],
+  ["Upholstery cleaning", "Polsterreinigung"],
+  ["Stain removal", "Fleckenentfernung"],
+  ["Why choose us", "Warum wir"],
+  ["Built around trust, care, and a smooth booking experience", "Auf Vertrauen, Sorgfalt und einfache Buchung ausgelegt"],
+  [
+    "Local customers usually want two things: confidence in the result\n              and a quick way to get started. We designed the service around\n              both.",
+    "Lokale Kundinnen und Kunden wollen meist zwei Dinge: Vertrauen ins Ergebnis\n              und einen schnellen Start. Unser Service ist genau darauf ausgelegt.",
+  ],
+  ["Professional equipment for deep and effective cleaning", "Professionelle Geräte für gründliche und effektive Reinigung"],
+  ["Safe and gentle cleaning products for daily-use fabrics", "Sichere und schonende Reinigungsmittel für Alltagsstoffe"],
+  ["Local service throughout Munich with reliable scheduling", "Lokaler Service in ganz München mit verlässlicher Terminplanung"],
+  ["Reliable and careful work in homes and small businesses", "Zuverlässige und sorgfältige Arbeit in Wohnungen und kleinen Betrieben"],
+  ["Price estimate by photo before booking is confirmed", "Preisangebot per Foto vor der Buchungsbestätigung"],
+  ["Before &amp; after", "Vorher &amp; Nachher"],
+  ["Cleaning results customers can see right away", "Reinigungsergebnisse, die man sofort sieht"],
+  [
+    "Example placeholder visuals for common upholstery and carpet jobs,\n              presented in a responsive grid.",
+    "Beispielhafte Platzhalter für typische Polster- und Teppichaufträge,\n              dargestellt in einem responsiven Raster.",
+  ],
+  ["Before", "Vorher"],
+  ["After", "Nachher"],
+  ["Customer reviews", "Kundenbewertungen"],
+  ["Kind words from local clients in and around Munich", "Positive Rückmeldungen von Kundinnen und Kunden aus München"],
+  [
+    "Trust matters when someone is coming into your home or workspace.\n              These review cards are styled to feel credible and reassuring.",
+    "Vertrauen ist wichtig, wenn jemand in Ihre Wohnung oder Ihr Unternehmen kommt.\n              Diese Bewertungen sind bewusst klar und vertrauenswürdig dargestellt.",
+  ],
+  ["Booking &amp; quote request", "Buchung &amp; Angebotsanfrage"],
+  ["Send your details and photos for a fast estimate", "Senden Sie Ihre Angaben und Fotos für ein schnelles Angebot"],
+  [
+    "Upload one or more photos so we can review the size, material, and\n              condition. Price estimates are given after reviewing the photos.",
+    "Laden Sie ein oder mehrere Fotos hoch, damit wir Größe, Material und\n              Zustand prüfen können. Preisangebote erstellen wir nach Sichtung der Fotos.",
+  ],
+  ["What helps us quote faster?", "Was hilft uns bei einer schnellen Angebotsabgabe?"],
+  ["Clear photos of the full item", "Klare Fotos des gesamten Objekts"],
+  ["Close-up images of stains or marked areas", "Nahaufnahmen von Flecken oder markierten Bereichen"],
+  ["Your preferred date and any access notes", "Ihr Wunschtermin und Hinweise zum Zugang"],
+  ["Full name", "Vollständiger Name"],
+  ["Phone number", "Telefonnummer"],
+  ["Email", "E-Mail"],
+  ["Service type", "Art der Leistung"],
+  ["Select a service", "Leistung auswählen"],
+  ["Preferred date", "Wunschtermin"],
+  ["Message", "Nachricht"],
+  ["Upload photos", "Fotos hochladen"],
+  ["Add one or more photos", "Ein oder mehrere Fotos hinzufügen"],
+  ["Price estimates are given after we review the uploaded\n                    photos.", "Preisangebote erstellen wir nach Sichtung der\n                    hochgeladenen Fotos."],
+  ["No files selected yet", "Noch keine Dateien ausgewählt"],
+  ["Request Booking", "Buchung anfragen"],
+  ["Reach us", "So erreichen Sie uns"],
+  ["Location:", "Standort:"],
+  ["Phone / WhatsApp:", "Telefon / WhatsApp:"],
+  ["Working hours", "Öffnungszeiten"],
+  ["Monday – Friday:", "Montag – Freitag:"],
+  ["Saturday:", "Samstag:"],
+  ["Sunday:", "Sonntag:"],
+  ["Closed", "Geschlossen"],
+  [
+    "Local upholstery and carpet cleaning service for Munich homes,\n              rentals, studios, and small business spaces.",
+    "Lokaler Service für Polster- und Teppichreinigung in Münchner Wohnungen,\n              Mietobjekten, Studios und kleinen Geschäftsräumen.",
+  ],
+  [
+    "Premium-feeling local cleaning service focused on careful work,\n            quick estimates, and a smooth booking experience in Munich.",
+    "Lokaler Reinigungsservice mit Premium-Anspruch, Fokus auf sorgfältiger Arbeit,\n            schnellen Angeboten und einer einfachen Buchung in München.",
+  ],
+  ["Quick links", "Schnellzugriff"],
+  ["Get a Quote", "Angebot anfragen"],
+  ["All rights reserved.", "Alle Rechte vorbehalten."],
+];
+
+const GERMAN_MARKUP = GERMAN_REPLACEMENTS.reduce((markup, [englishText, germanText]) => {
+  return markup.replaceAll(englishText, germanText);
+}, ENGLISH_MARKUP);
+
 export default function Home() {
+  const [isGerman, setIsGerman] = useState(false);
+
+  const pageMarkup = isGerman ? GERMAN_MARKUP : ENGLISH_MARKUP;
+
   useEffect(() => {
+    document.documentElement.lang = isGerman ? "de" : "en";
+
     const navToggle = document.querySelector<HTMLButtonElement>(".nav-toggle");
     const siteNav = document.querySelector<HTMLElement>(".site-nav");
+    const langToggle = document.getElementById("lang-toggle") as HTMLButtonElement | null;
     const navLinks = Array.from(
       document.querySelectorAll<HTMLAnchorElement>('.site-nav a[href^="#"]')
     );
@@ -559,6 +688,42 @@ export default function Home() {
     const successMessage = document.getElementById("form-success");
     const preferredDateInput = document.getElementById("preferred-date") as HTMLInputElement | null;
     const revealItems = Array.from(document.querySelectorAll<HTMLElement>(".reveal"));
+    const text = isGerman
+      ? {
+          noFiles: "Noch keine Dateien ausgewählt",
+          onePhoto: "1 Foto ausgewählt:",
+          manyPhotos: "Fotos ausgewählt:",
+          fullNameError: "Bitte geben Sie Ihren vollständigen Namen ein.",
+          phoneError: "Bitte geben Sie eine gültige Telefonnummer ein.",
+          emailError: "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
+          serviceError: "Bitte wählen Sie eine Leistung aus.",
+          dateError: "Bitte wählen Sie einen Wunschtermin aus.",
+          success: "Vielen Dank {name}, Ihre Anfrage ist bereit zum Senden. Wir prüfen die Fotos und melden uns mit einem Preisangebot.",
+          switchAria: "Zur englischen Version wechseln",
+        }
+      : {
+          noFiles: "No files selected yet",
+          onePhoto: "1 photo selected:",
+          manyPhotos: "photos selected:",
+          fullNameError: "Please enter your full name.",
+          phoneError: "Please enter a valid phone number.",
+          emailError: "Please enter a valid email address.",
+          serviceError: "Please choose a service type.",
+          dateError: "Please choose a preferred date.",
+          success: "Thanks {name}, your request is ready to send. We'll review the photos and reply with an estimate.",
+          switchAria: "Switch to German",
+        };
+
+    if (langToggle) {
+      langToggle.textContent = isGerman ? "EN" : "DE";
+      langToggle.setAttribute("aria-label", text.switchAria);
+    }
+
+    const handleLanguageToggle = () => {
+      setIsGerman((previous) => !previous);
+    };
+
+    langToggle?.addEventListener("click", handleLanguageToggle);
 
     if (preferredDateInput) {
       const localToday = new Date();
@@ -604,32 +769,32 @@ export default function Home() {
       const files = Array.from(photosInput.files || []);
 
       if (!files.length) {
-        uploadFeedback.textContent = "No files selected yet";
+        uploadFeedback.textContent = text.noFiles;
         return;
       }
 
       const fileLabel = files.map((file) => file.name).join(", ");
       uploadFeedback.textContent =
         files.length === 1
-          ? `1 photo selected: ${fileLabel}`
-          : `${files.length} photos selected: ${fileLabel}`;
+          ? `${text.onePhoto} ${fileLabel}`
+          : `${files.length} ${text.manyPhotos} ${fileLabel}`;
     };
 
     photosInput?.addEventListener("change", handlePhotoChange);
 
     const validators: Record<string, (value: string) => string> = {
       "full-name": (value) =>
-        value.trim().length >= 2 ? "" : "Please enter your full name.",
+        value.trim().length >= 2 ? "" : text.fullNameError,
       phone: (value) =>
         /^[+\d\s().-]{7,}$/.test(value.trim())
           ? ""
-          : "Please enter a valid phone number.",
+          : text.phoneError,
       email: (value) =>
         /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())
           ? ""
-          : "Please enter a valid email address.",
-      "service-type": (value) => (value ? "" : "Please choose a service type."),
-      "preferred-date": (value) => (value ? "" : "Please choose a preferred date."),
+          : text.emailError,
+      "service-type": (value) => (value ? "" : text.serviceError),
+      "preferred-date": (value) => (value ? "" : text.dateError),
     };
 
     const setError = (fieldId: string, message: string) => {
@@ -698,13 +863,12 @@ export default function Home() {
         (document.getElementById("full-name") as HTMLInputElement | null)?.value.trim() ||
         "there";
 
-      successMessage.textContent =
-        `Thanks ${name}, your request is ready to send. We'll review the photos and reply with an estimate.`;
+      successMessage.textContent = text.success.replace("{name}", name);
 
       bookingForm.reset();
 
       if (uploadFeedback) {
-        uploadFeedback.textContent = "No files selected yet";
+        uploadFeedback.textContent = text.noFiles;
       }
 
       Object.keys(validators).forEach((fieldId) => {
@@ -736,6 +900,7 @@ export default function Home() {
 
     return () => {
       navToggle?.removeEventListener("click", handleNavToggle);
+      langToggle?.removeEventListener("click", handleLanguageToggle);
       photosInput?.removeEventListener("change", handlePhotoChange);
       bookingForm?.removeEventListener("submit", handleSubmit);
       document.body.classList.remove("nav-open");
@@ -751,7 +916,7 @@ export default function Home() {
 
       observer?.disconnect();
     };
-  }, []);
+  }, [isGerman]);
 
-  return <div dangerouslySetInnerHTML={{ __html: PAGE_MARKUP }} />;
+  return <div dangerouslySetInnerHTML={{ __html: pageMarkup }} />;
 }

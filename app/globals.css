@@ -193,6 +193,30 @@ textarea {
   box-shadow: 0 12px 25px rgba(79, 134, 174, 0.22);
 }
 
+.lang-toggle {
+  min-height: 42px;
+  padding: 0.65rem 0.95rem;
+  border-radius: 999px;
+  border: 1px solid rgba(113, 134, 158, 0.22);
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--text);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease,
+    color 180ms ease;
+}
+
+.lang-toggle:hover,
+.lang-toggle:focus-visible {
+  transform: translateY(-1px);
+  border-color: rgba(79, 134, 174, 0.48);
+  background: rgba(231, 240, 247, 0.8);
+}
+
 .nav-toggle {
   display: none;
   border: 0;
@@ -867,6 +891,14 @@ textarea {
   .site-nav a {
     padding: 0.9rem 1rem;
     border-radius: 14px;
+  }
+
+  .lang-toggle {
+    width: 100%;
+    min-height: 48px;
+    padding: 0.9rem 1rem;
+    border-radius: 14px;
+    text-align: left;
   }
 
   .site-nav a:hover,
