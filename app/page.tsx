@@ -514,8 +514,8 @@ const ENGLISH_MARKUP = `
           <div class="contact-card reveal">
             <h3>Working hours</h3>
             <ul class="contact-list">
-              <li><strong>Monday – Friday:</strong> 09:00 – 19:00</li>
-              <li><strong>Saturday:</strong> 10:00 – 17:00</li>
+              <li><strong>Monday – Friday:</strong> 09:00 – 20:00</li>
+              <li><strong>Saturday:</strong> 10:00 – 18:00</li>
               <li><strong>Sunday:</strong> Closed</li>
             </ul>
           </div>
