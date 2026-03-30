@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function SiteFooter() {
   return (
     <footer className="site-footer">
@@ -14,19 +16,19 @@ export default function SiteFooter() {
           <h3>Quick links</h3>
           <ul className="footer-links">
             <li>
-              <a href="/#services">Services</a>
+              <Link href="/#services">Services</Link>
             </li>
             <li>
-              <a href="/#results">Before &amp; After</a>
+              <Link href="/#results">Before &amp; After</Link>
             </li>
             <li>
-              <a href="/#reviews">Reviews</a>
+              <Link href="/#reviews">Reviews</Link>
             </li>
             <li>
-              <a href="/#booking">Get a Quote</a>
+              <Link href="/#booking">Get a Quote</Link>
             </li>
             <li>
-              <a href="/datenschutz">Datenschutz</a>
+              <Link href="/datenschutz">Datenschutz</Link>
             </li>
           </ul>
         </div>
