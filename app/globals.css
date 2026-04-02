@@ -123,15 +123,22 @@ textarea {
 }
 
 .site-header {
-  position: -webkit-sticky;
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 60;
+  left: 0;
+  right: 0;
+  z-index: 100;
   width: 100%;
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
   background: rgba(252, 251, 248, 0.84);
   border-bottom: 1px solid rgba(113, 134, 158, 0.12);
+}
+
+.home-main,
+.service-page,
+.privacy-page {
+  padding-top: var(--header-height);
 }
 
 .header-inner {

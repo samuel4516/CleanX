@@ -5,7 +5,7 @@ import ServicePageHeader from "./components/service-page-header";
 import { useLanguage } from "./components/language-provider";
 
 const ENGLISH_MARKUP = `
-    <main>
+    <main class="home-main">
       <section class="hero section">
         <div class="container hero-grid">
           <div class="hero-copy reveal">
