@@ -16,6 +16,7 @@ export default function ServicePageHeader() {
         results: "Vorher & Nachher",
         reviews: "Bewertungen",
         quote: "Angebot anfragen",
+        mobileQuote: "Angebot",
         book: "Service buchen",
         languageAria: "Zur englischen Version wechseln",
       }
@@ -24,6 +25,7 @@ export default function ServicePageHeader() {
         results: "Before & After",
         reviews: "Reviews",
         quote: "Get a Quote",
+        mobileQuote: "Quote",
         book: "Book Service",
         languageAria: "Switch to German",
       };
@@ -56,6 +58,14 @@ export default function ServicePageHeader() {
         </Link>
 
         <div className="header-actions-mobile">
+          <Link
+            className="mobile-quote-cta"
+            href={toHomeSection("#contact")}
+            onClick={closeMenu}
+          >
+            {labels.mobileQuote}
+          </Link>
+
           <button
             className="lang-toggle-mobile"
             type="button"
