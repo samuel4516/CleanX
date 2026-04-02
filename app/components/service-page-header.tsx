@@ -1,10 +1,37 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useLanguage } from "./language-provider";
 
 export default function ServicePageHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const { isGerman, isHydrated, toggleLanguage } = useLanguage();
+
+  const labels = isGerman
+    ? {
+        services: "Leistungen",
+        results: "Vorher & Nachher",
+        reviews: "Bewertungen",
+        quote: "Angebot anfragen",
+        book: "Service buchen",
+        languageAria: "Zur englischen Version wechseln",
+      }
+    : {
+        services: "Services",
+        results: "Before & After",
+        reviews: "Reviews",
+        quote: "Get a Quote",
+        book: "Book Service",
+        languageAria: "Switch to German",
+      };
+
+  const toHomeSection = (hash: string) => {
+    if (pathname === "/") return hash;
+    return `/${hash}`;
+  };
 
   useEffect(() => {
     document.body.classList.toggle("nav-open", menuOpen);
@@ -24,11 +51,20 @@ export default function ServicePageHeader() {
           <span className="brand-mark">CX</span>
           <span className="brand-copy">
             <strong>CleanX Reinigung</strong>
-            <small>Munich home services</small>
+            <small>{isGerman ? "Münchner Hausservice" : "Munich home services"}</small>
           </span>
         </Link>
 
         <div className="header-actions-mobile">
+          <button
+            className="lang-toggle-mobile"
+            type="button"
+            aria-label={labels.languageAria}
+            onClick={toggleLanguage}
+          >
+            {isHydrated && isGerman ? "EN" : "DE"}
+          </button>
+
           <button
             className="nav-toggle"
             type="button"
@@ -48,21 +84,29 @@ export default function ServicePageHeader() {
           id="site-nav"
           aria-label="Primary"
         >
-          <Link href="/#services" onClick={closeMenu}>
-            Services
+          <Link href={toHomeSection("#services")} onClick={closeMenu}>
+            {labels.services}
           </Link>
-          <Link href="/#results" onClick={closeMenu}>
-            Before &amp; After
+          <Link href={toHomeSection("#results")} onClick={closeMenu}>
+            {labels.results}
           </Link>
-          <Link href="/#reviews" onClick={closeMenu}>
-            Reviews
+          <Link href={toHomeSection("#reviews")} onClick={closeMenu}>
+            {labels.reviews}
           </Link>
-          <Link href="/#booking" onClick={closeMenu}>
-            Get a Quote
+          <Link href={toHomeSection("#booking")} onClick={closeMenu}>
+            {labels.quote}
           </Link>
-          <Link className="nav-cta" href="/#booking" onClick={closeMenu}>
-            Book Service
+          <Link className="nav-cta" href={toHomeSection("#booking")} onClick={closeMenu}>
+            {labels.book}
           </Link>
+          <button
+            className="lang-toggle"
+            type="button"
+            aria-label={labels.languageAria}
+            onClick={toggleLanguage}
+          >
+            {isHydrated && isGerman ? "EN" : "DE"}
+          </button>
         </nav>
       </div>
     </header>

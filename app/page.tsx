@@ -1,54 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
-const LANGUAGE_STORAGE_KEY = "cleanx_language";
+import { useEffect } from "react";
+import ServicePageHeader from "./components/service-page-header";
+import { useLanguage } from "./components/language-provider";
 
 const ENGLISH_MARKUP = `
-    <header class="site-header" id="top">
-      <div class="container header-inner">
-        <a class="brand" href="/" aria-label="CleanX Reinigung home">
-          <span class="brand-mark">CX</span>
-          <span class="brand-copy">
-            <strong>CleanX Reinigung</strong>
-            <small>Munich home services</small>
-          </span>
-        </a>
-
-        <div class="header-actions-mobile">
-          <button
-            class="lang-toggle-mobile"
-            type="button"
-            data-language-toggle="true"
-            aria-label="Switch language"
-          >
-            DE
-          </button>
-
-          <button
-            class="nav-toggle"
-            type="button"
-            aria-expanded="false"
-            aria-controls="site-nav"
-            aria-label="Open navigation"
-          >
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
-        </div>
-
-        <nav class="site-nav" id="site-nav" aria-label="Primary">
-          <a href="#services">Services</a>
-          <a href="#results">Before &amp; After</a>
-          <a href="#reviews">Reviews</a>
-          <a href="#booking">Get a Quote</a>
-          <a class="nav-cta" href="#booking">Book Service</a>
-          <button class="lang-toggle" type="button" data-language-toggle="true" aria-label="Switch language">DE</button>
-        </nav>
-      </div>
-    </header>
-
     <main>
       <section class="hero section">
         <div class="container hero-grid">
@@ -689,29 +645,11 @@ const GERMAN_MARKUP = GERMAN_REPLACEMENTS.reduce((markup, [englishText, germanTe
 }, ENGLISH_MARKUP);
 
 export default function Home() {
-  const [isGerman, setIsGerman] = useState(false);
+  const { isGerman } = useLanguage();
 
   const pageMarkup = isGerman ? GERMAN_MARKUP : ENGLISH_MARKUP;
 
   useEffect(() => {
-    const storedLanguage = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
-    if (storedLanguage === "de") {
-      setIsGerman(true);
-    }
-  }, []);
-
-  useEffect(() => {
-    window.localStorage.setItem(LANGUAGE_STORAGE_KEY, isGerman ? "de" : "en");
-  }, [isGerman]);
-
-  useEffect(() => {
-    document.documentElement.lang = isGerman ? "de" : "en";
-
-    const navToggle = document.querySelector<HTMLButtonElement>(".nav-toggle");
-    const siteNav = document.querySelector<HTMLElement>(".site-nav");
-    const languageToggles = Array.from(
-      document.querySelectorAll<HTMLButtonElement>("[data-language-toggle='true']")
-    );
     const navLinks = Array.from(
       document.querySelectorAll<HTMLAnchorElement>('.site-nav a[href^="#"]')
     );
@@ -732,7 +670,6 @@ export default function Home() {
           serviceError: "Bitte wählen Sie eine Leistung aus.",
           dateError: "Bitte wählen Sie einen Wunschtermin aus.",
           success: "Vielen Dank {name}, Ihre Anfrage ist bereit zum Senden. Wir prüfen die Fotos und melden uns mit einem Preisangebot.",
-          switchAria: "Zur englischen Version wechseln",
         }
       : {
           noFiles: "No files selected yet",
@@ -744,36 +681,13 @@ export default function Home() {
           serviceError: "Please choose a service type.",
           dateError: "Please choose a preferred date.",
           success: "Thanks {name}, your request is ready to send. We'll review the photos and reply with an estimate.",
-          switchAria: "Switch to German",
         };
-
-    languageToggles.forEach((toggle) => {
-      toggle.textContent = isGerman ? "EN" : "DE";
-      toggle.setAttribute("aria-label", text.switchAria);
-    });
-
-    const handleLanguageToggle = () => {
-      setIsGerman((previous) => !previous);
-    };
-
-    languageToggles.forEach((toggle) => {
-      toggle.addEventListener("click", handleLanguageToggle);
-    });
 
     if (preferredDateInput) {
       const localToday = new Date();
       localToday.setMinutes(localToday.getMinutes() - localToday.getTimezoneOffset());
       preferredDateInput.min = localToday.toISOString().split("T")[0];
     }
-
-    const handleNavToggle = () => {
-      if (!siteNav || !navToggle) return;
-      const isOpen = siteNav.classList.toggle("is-open");
-      navToggle.setAttribute("aria-expanded", String(isOpen));
-      document.body.classList.toggle("nav-open", isOpen);
-    };
-
-    navToggle?.addEventListener("click", handleNavToggle);
 
     const navLinkHandlers = new Map<HTMLAnchorElement, EventListener>();
 
@@ -787,12 +701,6 @@ export default function Home() {
 
         event.preventDefault();
         target.scrollIntoView({ behavior: "smooth", block: "start" });
-
-        if (siteNav?.classList.contains("is-open")) {
-          siteNav.classList.remove("is-open");
-          navToggle?.setAttribute("aria-expanded", "false");
-          document.body.classList.remove("nav-open");
-        }
       };
 
       link.addEventListener("click", handler);
@@ -934,13 +842,8 @@ export default function Home() {
     }
 
     return () => {
-      navToggle?.removeEventListener("click", handleNavToggle);
-      languageToggles.forEach((toggle) => {
-        toggle.removeEventListener("click", handleLanguageToggle);
-      });
       photosInput?.removeEventListener("change", handlePhotoChange);
       bookingForm?.removeEventListener("submit", handleSubmit);
-      document.body.classList.remove("nav-open");
 
       navLinkHandlers.forEach((handler, link) => {
         link.removeEventListener("click", handler);
@@ -955,5 +858,10 @@ export default function Home() {
     };
   }, [isGerman]);
 
-  return <div dangerouslySetInnerHTML={{ __html: pageMarkup }} />;
+  return (
+    <>
+      <ServicePageHeader />
+      <div dangerouslySetInnerHTML={{ __html: pageMarkup }} />
+    </>
+  );
 }

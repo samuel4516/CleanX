@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import SiteFooter from "./components/site-footer";
+import { LanguageProvider } from "./components/language-provider";
 
 export const metadata: Metadata = {
   title: "CleanX Reinigung | Cleaning & Home Services in Munich",
@@ -16,8 +17,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {children}
-        <SiteFooter />
+        <LanguageProvider>
+          {children}
+          <SiteFooter />
+        </LanguageProvider>
       </body>
     </html>
   );
