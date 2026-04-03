@@ -3,32 +3,34 @@
 import Link from "next/link";
 import { useLanguage } from "./language-provider";
 
-export default function SiteFooter() {
-  const { isGerman } = useLanguage();
+const FOOTER_TRANSLATIONS = {
+  en: {
+    description:
+      "Premium-feeling local cleaning service focused on careful work, quick estimates, and a smooth booking experience in Munich.",
+    quickLinks: "Quick links",
+    services: "Services",
+    beforeAfter: "Before & After",
+    reviews: "Reviews",
+    quote: "Get a Quote",
+    contactInfo: "Contact info",
+    rights: "All rights reserved.",
+  },
+  de: {
+    description:
+      "Lokaler Reinigungs- und Hausservice mit Premium-Anspruch, Fokus auf sorgfältiger Arbeit, schnellen Angeboten und einfacher Buchung in München.",
+    quickLinks: "Schnellzugriff",
+    services: "Leistungen",
+    beforeAfter: "Vorher & Nachher",
+    reviews: "Bewertungen",
+    quote: "Angebot anfragen",
+    contactInfo: "Kontaktinfo",
+    rights: "Alle Rechte vorbehalten.",
+  },
+} as const;
 
-  const labels = isGerman
-    ? {
-        description:
-          "Lokaler Reinigungs- und Hausservice mit Premium-Anspruch, Fokus auf sorgfältiger Arbeit, schnellen Angeboten und einfacher Buchung in München.",
-        quickLinks: "Schnellzugriff",
-        services: "Leistungen",
-        beforeAfter: "Vorher & Nachher",
-        reviews: "Bewertungen",
-        quote: "Angebot anfragen",
-        contactInfo: "Kontaktinfo",
-        rights: "Alle Rechte vorbehalten.",
-      }
-    : {
-        description:
-          "Premium-feeling local cleaning service focused on careful work, quick estimates, and a smooth booking experience in Munich.",
-        quickLinks: "Quick links",
-        services: "Services",
-        beforeAfter: "Before & After",
-        reviews: "Reviews",
-        quote: "Get a Quote",
-        contactInfo: "Contact info",
-        rights: "All rights reserved.",
-      };
+export default function SiteFooter() {
+  const { language } = useLanguage();
+  const labels = FOOTER_TRANSLATIONS[language] ?? FOOTER_TRANSLATIONS.en;
 
   return (
     <footer className="site-footer">

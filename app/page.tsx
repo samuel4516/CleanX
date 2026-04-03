@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import ServicePageHeader from "./components/service-page-header";
-import { useLanguage } from "./components/language-provider";
+import { useLanguage, type SiteLanguage } from "./components/language-provider";
 
 const ENGLISH_MARKUP = `
     <main class="home-main">
@@ -644,10 +644,55 @@ const GERMAN_MARKUP = GERMAN_REPLACEMENTS.reduce((markup, [englishText, germanTe
   return markup.replaceAll(englishText, germanText);
 }, ENGLISH_MARKUP);
 
-export default function Home() {
-  const { isGerman } = useLanguage();
+const HOME_MARKUP: Record<SiteLanguage, string> = {
+  en: ENGLISH_MARKUP,
+  de: GERMAN_MARKUP,
+};
 
-  const pageMarkup = isGerman ? GERMAN_MARKUP : ENGLISH_MARKUP;
+const FORM_TEXT: Record<
+  SiteLanguage,
+  {
+    noFiles: string;
+    onePhoto: string;
+    manyPhotos: string;
+    fullNameError: string;
+    phoneError: string;
+    emailError: string;
+    serviceError: string;
+    dateError: string;
+    success: string;
+  }
+> = {
+  en: {
+    noFiles: "No files selected yet",
+    onePhoto: "1 photo selected:",
+    manyPhotos: "photos selected:",
+    fullNameError: "Please enter your full name.",
+    phoneError: "Please enter a valid phone number.",
+    emailError: "Please enter a valid email address.",
+    serviceError: "Please choose a service type.",
+    dateError: "Please choose a preferred date.",
+    success:
+      "Thanks {name}, your request is ready to send. We'll review the photos and reply with an estimate.",
+  },
+  de: {
+    noFiles: "Noch keine Dateien ausgewählt",
+    onePhoto: "1 Foto ausgewählt:",
+    manyPhotos: "Fotos ausgewählt:",
+    fullNameError: "Bitte geben Sie Ihren vollständigen Namen ein.",
+    phoneError: "Bitte geben Sie eine gültige Telefonnummer ein.",
+    emailError: "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
+    serviceError: "Bitte wählen Sie eine Leistung aus.",
+    dateError: "Bitte wählen Sie einen Wunschtermin aus.",
+    success:
+      "Vielen Dank {name}, Ihre Anfrage ist bereit zum Senden. Wir prüfen die Fotos und melden uns mit einem Preisangebot.",
+  },
+};
+
+export default function Home() {
+  const { language } = useLanguage();
+
+  const pageMarkup = HOME_MARKUP[language] ?? HOME_MARKUP.en;
 
   useEffect(() => {
     const navLinks = Array.from(
@@ -659,29 +704,7 @@ export default function Home() {
     const successMessage = document.getElementById("form-success");
     const preferredDateInput = document.getElementById("preferred-date") as HTMLInputElement | null;
     const revealItems = Array.from(document.querySelectorAll<HTMLElement>(".reveal"));
-    const text = isGerman
-      ? {
-          noFiles: "Noch keine Dateien ausgewählt",
-          onePhoto: "1 Foto ausgewählt:",
-          manyPhotos: "Fotos ausgewählt:",
-          fullNameError: "Bitte geben Sie Ihren vollständigen Namen ein.",
-          phoneError: "Bitte geben Sie eine gültige Telefonnummer ein.",
-          emailError: "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
-          serviceError: "Bitte wählen Sie eine Leistung aus.",
-          dateError: "Bitte wählen Sie einen Wunschtermin aus.",
-          success: "Vielen Dank {name}, Ihre Anfrage ist bereit zum Senden. Wir prüfen die Fotos und melden uns mit einem Preisangebot.",
-        }
-      : {
-          noFiles: "No files selected yet",
-          onePhoto: "1 photo selected:",
-          manyPhotos: "photos selected:",
-          fullNameError: "Please enter your full name.",
-          phoneError: "Please enter a valid phone number.",
-          emailError: "Please enter a valid email address.",
-          serviceError: "Please choose a service type.",
-          dateError: "Please choose a preferred date.",
-          success: "Thanks {name}, your request is ready to send. We'll review the photos and reply with an estimate.",
-        };
+    const text = FORM_TEXT[language] ?? FORM_TEXT.en;
 
     if (preferredDateInput) {
       const localToday = new Date();
@@ -869,7 +892,7 @@ export default function Home() {
 
       observer?.disconnect();
     };
-  }, [isGerman]);
+  }, [language]);
 
   return (
     <>

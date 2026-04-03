@@ -5,30 +5,39 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useLanguage } from "./language-provider";
 
+const HEADER_TRANSLATIONS = {
+  en: {
+    services: "Services",
+    results: "Before & After",
+    reviews: "Reviews",
+    quote: "Get a Quote",
+    mobileQuote: "Quote",
+    book: "Book Service",
+    languageAria: "Switch to German",
+    brandTagline: "Munich home services",
+  },
+  de: {
+    services: "Leistungen",
+    results: "Vorher & Nachher",
+    reviews: "Bewertungen",
+    quote: "Angebot anfragen",
+    mobileQuote: "Angebot",
+    book: "Service buchen",
+    languageAria: "Zur englischen Version wechseln",
+    brandTagline: "Münchner Hausservice",
+  },
+} as const;
+
 export default function ServicePageHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
-  const { isGerman, isHydrated, toggleLanguage } = useLanguage();
+  const { language, setLanguage } = useLanguage();
+  const isGerman = language === "de";
+  const labels = HEADER_TRANSLATIONS[language] ?? HEADER_TRANSLATIONS.en;
 
-  const labels = isGerman
-    ? {
-        services: "Leistungen",
-        results: "Vorher & Nachher",
-        reviews: "Bewertungen",
-        quote: "Angebot anfragen",
-        mobileQuote: "Angebot",
-        book: "Service buchen",
-        languageAria: "Zur englischen Version wechseln",
-      }
-    : {
-        services: "Services",
-        results: "Before & After",
-        reviews: "Reviews",
-        quote: "Get a Quote",
-        mobileQuote: "Quote",
-        book: "Book Service",
-        languageAria: "Switch to German",
-      };
+  const handleLanguageToggle = () => {
+    setLanguage(isGerman ? "en" : "de");
+  };
 
   const toHomeSection = (hash: string) => {
     if (pathname === "/") return hash;
@@ -53,7 +62,7 @@ export default function ServicePageHeader() {
           <span className="brand-mark">CX</span>
           <span className="brand-copy">
             <strong>CleanX Reinigung</strong>
-            <small>{isGerman ? "Münchner Hausservice" : "Munich home services"}</small>
+            <small>{labels.brandTagline}</small>
           </span>
         </Link>
 
@@ -70,9 +79,9 @@ export default function ServicePageHeader() {
             className="lang-toggle-mobile"
             type="button"
             aria-label={labels.languageAria}
-            onClick={toggleLanguage}
+            onClick={handleLanguageToggle}
           >
-            {isHydrated && isGerman ? "EN" : "DE"}
+            {isGerman ? "EN" : "DE"}
           </button>
 
           <button
@@ -113,9 +122,9 @@ export default function ServicePageHeader() {
             className="lang-toggle"
             type="button"
             aria-label={labels.languageAria}
-            onClick={toggleLanguage}
+            onClick={handleLanguageToggle}
           >
-            {isHydrated && isGerman ? "EN" : "DE"}
+            {isGerman ? "EN" : "DE"}
           </button>
         </nav>
       </div>

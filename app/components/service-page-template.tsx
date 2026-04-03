@@ -17,46 +17,49 @@ type ServicePageTemplateProps = {
   content: Record<SiteLanguage, ServicePageContent>;
 };
 
-export default function ServicePageTemplate({ content }: ServicePageTemplateProps) {
-  const { isGerman } = useLanguage();
+const TEMPLATE_LABELS = {
+  en: {
+    quote: "Get a Quote",
+    serviceOverview: "Service overview",
+    fastResponse: "Fast response",
+    fastResponseDesc: "clear communication and planning",
+    munichWide: "Munich-wide",
+    munichWideDesc: "local and reliable service coverage",
+    transparent: "Transparent",
+    transparentDesc: "scope and estimate before start",
+    included: "What is included",
+    forWho: "Who it is for",
+    whyService: "Why this service",
+    whyServiceHeading: "Why clients in Munich book this service with CleanX",
+    readyToBook: "Ready to book",
+    ctaCopy:
+      "Send your request with photos when needed and we will reply quickly with a transparent estimate and the next available appointment.",
+  },
+  de: {
+    quote: "Angebot anfragen",
+    serviceOverview: "Leistungsübersicht",
+    fastResponse: "Schnelle Rückmeldung",
+    fastResponseDesc: "klare Kommunikation und Planung",
+    munichWide: "Ganz München",
+    munichWideDesc: "lokale und zuverlässige Einsatzgebiete",
+    transparent: "Transparent",
+    transparentDesc: "Umfang und Angebot vor dem Start",
+    included: "Was ist enthalten",
+    forWho: "Für wen geeignet",
+    whyService: "Warum diese Leistung",
+    whyServiceHeading:
+      "Warum Kundinnen und Kunden in München diese Leistung bei CleanX buchen",
+    readyToBook: "Bereit,",
+    ctaCopy:
+      "Senden Sie Ihre Anfrage bei Bedarf mit Fotos und wir antworten schnell mit einem transparenten Angebot und dem nächsten verfügbaren Termin.",
+  },
+} as const;
 
-  const pageContent = isGerman ? content.de : content.en;
-  const labels = isGerman
-    ? {
-        quote: "Angebot anfragen",
-        serviceOverview: "Leistungsübersicht",
-        fastResponse: "Schnelle Rückmeldung",
-        fastResponseDesc: "klare Kommunikation und Planung",
-        munichWide: "Ganz München",
-        munichWideDesc: "lokale und zuverlässige Einsatzgebiete",
-        transparent: "Transparent",
-        transparentDesc: "Umfang und Angebot vor dem Start",
-        included: "Was ist enthalten",
-        forWho: "Für wen geeignet",
-        whyService: "Warum diese Leistung",
-        whyServiceHeading:
-          "Warum Kundinnen und Kunden in München diese Leistung bei CleanX buchen",
-        readyToBook: "Bereit,",
-        ctaCopy:
-          "Senden Sie Ihre Anfrage bei Bedarf mit Fotos und wir antworten schnell mit einem transparenten Angebot und dem nächsten verfügbaren Termin.",
-      }
-    : {
-        quote: "Get a Quote",
-        serviceOverview: "Service overview",
-        fastResponse: "Fast response",
-        fastResponseDesc: "clear communication and planning",
-        munichWide: "Munich-wide",
-        munichWideDesc: "local and reliable service coverage",
-        transparent: "Transparent",
-        transparentDesc: "scope and estimate before start",
-        included: "What is included",
-        forWho: "Who it is for",
-        whyService: "Why this service",
-        whyServiceHeading: "Why clients in Munich book this service with CleanX",
-        readyToBook: "Ready to book",
-        ctaCopy:
-          "Send your request with photos when needed and we will reply quickly with a transparent estimate and the next available appointment.",
-      };
+export default function ServicePageTemplate({ content }: ServicePageTemplateProps) {
+  const { language } = useLanguage();
+
+  const pageContent = content[language] ?? content.en;
+  const labels = TEMPLATE_LABELS[language] ?? TEMPLATE_LABELS.en;
 
   return (
     <>
