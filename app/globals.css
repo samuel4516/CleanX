@@ -766,6 +766,10 @@ textarea {
   align-items: start;
 }
 
+.booking-section#quote-form {
+  scroll-margin-top: calc(var(--header-height) + 24px);
+}
+
 .info-card,
 .booking-form,
 .contact-card {
