@@ -822,26 +822,39 @@ export default function Home() {
     bookingForm?.addEventListener("submit", handleSubmit);
 
     let observer: IntersectionObserver | null = null;
+    const revealFallbackTimer = window.setTimeout(() => {
+      const hasVisibleItems = revealItems.some((item) =>
+        item.classList.contains("is-visible")
+      );
+      if (!hasVisibleItems) {
+        revealItems.forEach((item) => item.classList.add("is-visible"));
+      }
+    }, 900);
 
     if ("IntersectionObserver" in window) {
-      observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("is-visible");
-              observer?.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.18 }
-      );
+      try {
+        observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                observer?.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.18 }
+        );
 
-      revealItems.forEach((item) => observer?.observe(item));
+        revealItems.forEach((item) => observer?.observe(item));
+      } catch {
+        revealItems.forEach((item) => item.classList.add("is-visible"));
+      }
     } else {
       revealItems.forEach((item) => item.classList.add("is-visible"));
     }
 
     return () => {
+      window.clearTimeout(revealFallbackTimer);
       photosInput?.removeEventListener("change", handlePhotoChange);
       bookingForm?.removeEventListener("submit", handleSubmit);
 

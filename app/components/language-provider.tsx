@@ -23,22 +23,39 @@ const LANGUAGE_STORAGE_KEY = "cleanx_language";
 
 const LanguageContext = createContext<LanguageContextValue | null>(null);
 
+function normalizeLanguage(value: string | null): SiteLanguage {
+  return value === "de" ? "de" : "en";
+}
+
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<SiteLanguage>("en");
   const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
-    const storedLanguage = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
-    if (storedLanguage === "de" || storedLanguage === "en") {
-      setLanguage(storedLanguage);
+    try {
+      const storedLanguage = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
+      const nextLanguage = normalizeLanguage(storedLanguage);
+      setLanguage(nextLanguage);
+
+      if (storedLanguage && storedLanguage !== nextLanguage) {
+        window.localStorage.setItem(LANGUAGE_STORAGE_KEY, nextLanguage);
+      }
+    } catch {
+      setLanguage("en");
+    } finally {
+      setIsHydrated(true);
     }
-    setIsHydrated(true);
   }, []);
 
   useEffect(() => {
-    if (!isHydrated) return;
-    window.localStorage.setItem(LANGUAGE_STORAGE_KEY, language);
     document.documentElement.lang = language;
+    if (!isHydrated) return;
+
+    try {
+      window.localStorage.setItem(LANGUAGE_STORAGE_KEY, language);
+    } catch {
+      // Ignore storage errors so rendering never breaks.
+    }
   }, [language, isHydrated]);
 
   const value = useMemo<LanguageContextValue>(
