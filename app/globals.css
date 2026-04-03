@@ -878,8 +878,16 @@ textarea {
 .form-success {
   min-height: 1.2rem;
   margin: 1rem 0 0;
-  color: var(--success);
+  color: var(--muted);
   font-weight: 700;
+}
+
+.form-success.is-success {
+  color: var(--success);
+}
+
+.form-success.is-error {
+  color: #b42318;
 }
 
 .contact-grid,

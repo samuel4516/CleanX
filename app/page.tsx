@@ -805,6 +805,7 @@ export default function Home() {
       if (!successMessage) return;
 
       successMessage.textContent = "";
+      successMessage.classList.remove("is-success", "is-error");
       let hasErrors = false;
 
       Object.keys(validators).forEach((fieldId) => {
@@ -850,6 +851,8 @@ export default function Home() {
           }
 
           successMessage.textContent = SUBMIT_SUCCESS_TEXT;
+          successMessage.classList.remove("is-error");
+          successMessage.classList.add("is-success");
           bookingForm.reset();
 
           if (uploadFeedback) {
@@ -861,6 +864,8 @@ export default function Home() {
           });
         } catch {
           successMessage.textContent = SUBMIT_ERROR_TEXT;
+          successMessage.classList.remove("is-success");
+          successMessage.classList.add("is-error");
         }
       })();
     };
