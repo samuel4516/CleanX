@@ -65,32 +65,67 @@ function buildTelegramMessage(payload: BookingPayload, photoCount: number): stri
 }
 
 async function sendTelegramNotification(params: {
-  token: string;
-  chatId: string;
   text: string;
 }) {
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+
+  console.log("[Telegram] TELEGRAM_BOT_TOKEN configured:", Boolean(token));
+  console.log("[Telegram] TELEGRAM_CHAT_ID configured:", Boolean(chatId));
+
+  if (!token) {
+    throw new Error("Missing TELEGRAM_BOT_TOKEN");
+  }
+
+  if (!chatId) {
+    throw new Error("Missing TELEGRAM_CHAT_ID");
+  }
+
   const response = await fetch(
-    `https://api.telegram.org/bot${params.token}/sendMessage`,
+    `https://api.telegram.org/bot${token}/sendMessage`,
     {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        chat_id: params.chatId,
+        chat_id: chatId,
         text: params.text,
       }),
     }
   );
 
-  if (!response.ok) {
-    const errorText = await response.text().catch(() => "");
+  const rawBody = await response.text();
+  let data: unknown = null;
+
+  try {
+    data = rawBody ? JSON.parse(rawBody) : null;
+  } catch {
+    data = rawBody;
+  }
+
+  console.log("[Telegram] HTTP status:", response.status);
+  console.log("[Telegram] Response JSON:", data);
+
+  const telegramOk = Boolean(
+    typeof data === "object" && data !== null && "ok" in data && (data as { ok?: boolean }).ok
+  );
+
+  if (!response.ok || !telegramOk) {
+    const description =
+      typeof data === "object" &&
+      data !== null &&
+      "description" in data &&
+      typeof (data as { description?: unknown }).description === "string"
+        ? (data as { description: string }).description
+        : "Telegram sendMessage failed";
+
     throw new Error(
-      `Telegram sendMessage failed with status ${response.status}${
-        errorText ? `: ${errorText}` : ""
-      }`
+      `${description} (status ${response.status}, body ${typeof data === "string" ? data : JSON.stringify(data)})`
     );
   }
+
+  return data;
 }
 
 export async function POST(request: Request) {
@@ -206,20 +241,11 @@ export async function POST(request: Request) {
       attachments,
     });
 
-    const telegramToken = process.env.TELEGRAM_BOT_TOKEN;
-    const telegramChatId = process.env.TELEGRAM_CHAT_ID;
-
-    if (telegramToken && telegramChatId) {
-      const telegramText = buildTelegramMessage(payload, photoFiles.length);
-      try {
-        await sendTelegramNotification({
-          token: telegramToken,
-          chatId: telegramChatId,
-          text: telegramText,
-        });
-      } catch (telegramError) {
-        console.error("Telegram notification failed", telegramError);
-      }
+    const telegramText = buildTelegramMessage(payload, photoFiles.length);
+    try {
+      await sendTelegramNotification({ text: telegramText });
+    } catch (telegramError) {
+      console.error("[Telegram] Notification failed:", telegramError);
     }
 
     return NextResponse.json({ ok: true });
