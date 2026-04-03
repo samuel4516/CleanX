@@ -660,7 +660,6 @@ const FORM_TEXT: Record<
     emailError: string;
     serviceError: string;
     dateError: string;
-    success: string;
   }
 > = {
   en: {
@@ -672,8 +671,6 @@ const FORM_TEXT: Record<
     emailError: "Please enter a valid email address.",
     serviceError: "Please choose a service type.",
     dateError: "Please choose a preferred date.",
-    success:
-      "Thanks {name}, your request is ready to send. We'll review the photos and reply with an estimate.",
   },
   de: {
     noFiles: "Noch keine Dateien ausgewählt",
@@ -684,10 +681,12 @@ const FORM_TEXT: Record<
     emailError: "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
     serviceError: "Bitte wählen Sie eine Leistung aus.",
     dateError: "Bitte wählen Sie einen Wunschtermin aus.",
-    success:
-      "Vielen Dank {name}, Ihre Anfrage ist bereit zum Senden. Wir prüfen die Fotos und melden uns mit einem Preisangebot.",
   },
 };
+
+const SUBMIT_SUCCESS_TEXT = "Thank you! Your request has been sent.";
+const SUBMIT_ERROR_TEXT = "Something went wrong. Please try again.";
+const RESET_UPLOAD_FEEDBACK_TEXT = "No files selected yet";
 
 export default function Home() {
   const { language } = useLanguage();
@@ -825,21 +824,45 @@ export default function Home() {
 
       if (hasErrors || !bookingForm) return;
 
-      const name =
-        (document.getElementById("full-name") as HTMLInputElement | null)?.value.trim() ||
-        "there";
+      const formData = new FormData(bookingForm);
+      const payload = {
+        fullName: String(formData.get("fullName") ?? "").trim(),
+        phone: String(formData.get("phone") ?? "").trim(),
+        email: String(formData.get("email") ?? "").trim(),
+        serviceType: String(formData.get("serviceType") ?? "").trim(),
+        preferredDate: String(formData.get("preferredDate") ?? "").trim(),
+        message: String(formData.get("message") ?? "").trim(),
+      };
 
-      successMessage.textContent = text.success.replace("{name}", name);
+      void (async () => {
+        try {
+          const response = await fetch("/api/send", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+          });
 
-      bookingForm.reset();
+          const result = await response.json().catch(() => null);
+          if (!response.ok || !result?.ok) {
+            throw new Error("Form submission failed");
+          }
 
-      if (uploadFeedback) {
-        uploadFeedback.textContent = text.noFiles;
-      }
+          successMessage.textContent = SUBMIT_SUCCESS_TEXT;
+          bookingForm.reset();
 
-      Object.keys(validators).forEach((fieldId) => {
-        setError(fieldId, "");
-      });
+          if (uploadFeedback) {
+            uploadFeedback.textContent = RESET_UPLOAD_FEEDBACK_TEXT;
+          }
+
+          Object.keys(validators).forEach((fieldId) => {
+            setError(fieldId, "");
+          });
+        } catch {
+          successMessage.textContent = SUBMIT_ERROR_TEXT;
+        }
+      })();
     };
 
     bookingForm?.addEventListener("submit", handleSubmit);
