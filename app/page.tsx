@@ -826,23 +826,12 @@ export default function Home() {
       if (hasErrors || !bookingForm) return;
 
       const formData = new FormData(bookingForm);
-      const payload = {
-        fullName: String(formData.get("fullName") ?? "").trim(),
-        phone: String(formData.get("phone") ?? "").trim(),
-        email: String(formData.get("email") ?? "").trim(),
-        serviceType: String(formData.get("serviceType") ?? "").trim(),
-        preferredDate: String(formData.get("preferredDate") ?? "").trim(),
-        message: String(formData.get("message") ?? "").trim(),
-      };
 
       void (async () => {
         try {
           const response = await fetch("/api/send", {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(payload),
+            body: formData,
           });
 
           const result = await response.json().catch(() => null);
