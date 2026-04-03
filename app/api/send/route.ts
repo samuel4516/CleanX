@@ -49,29 +49,13 @@ function escapeHtml(value: string): string {
     .replaceAll("'", "&#39;");
 }
 
-function buildTelegramMessage(payload: BookingPayload, photoCount: number): string {
-  const compactMessage = payload.message || "No message provided.";
-
-  return [
-    "New booking request",
-    `Name: ${payload.fullName}`,
-    `Phone: ${payload.phone}`,
-    `Email: ${payload.email}`,
-    `Service: ${payload.serviceType}`,
-    `Preferred date: ${payload.preferredDate}`,
-    `Photos: ${photoCount}`,
-    `Message: ${compactMessage}`,
-  ].join("\n");
-}
-
-async function sendTelegramNotification(params: {
-  text: string;
-}) {
+async function sendTelegramNotification(text: string) {
   const token = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;
 
-  console.log("[Telegram] TELEGRAM_BOT_TOKEN configured:", Boolean(token));
-  console.log("[Telegram] TELEGRAM_CHAT_ID configured:", Boolean(chatId));
+  console.log("Telegram token exists:", Boolean(token));
+  console.log("Telegram chat id exists:", Boolean(chatId));
+  console.log("Telegram chat id value:", chatId);
 
   if (!token) {
     throw new Error("Missing TELEGRAM_BOT_TOKEN");
@@ -90,28 +74,25 @@ async function sendTelegramNotification(params: {
       },
       body: JSON.stringify({
         chat_id: chatId,
-        text: params.text,
+        text,
       }),
     }
   );
 
-  const rawBody = await response.text();
-  let data: unknown = null;
+  console.log("Telegram HTTP status:", response.status);
 
-  try {
-    data = rawBody ? JSON.parse(rawBody) : null;
-  } catch {
-    data = rawBody;
-  }
+  const data = await response.json();
+  console.log("Telegram API response:", JSON.stringify(data, null, 2));
 
-  console.log("[Telegram] HTTP status:", response.status);
-  console.log("[Telegram] Response JSON:", data);
-
-  const telegramOk = Boolean(
-    typeof data === "object" && data !== null && "ok" in data && (data as { ok?: boolean }).ok
-  );
-
-  if (!response.ok || !telegramOk) {
+  if (
+    !response.ok ||
+    !(
+      typeof data === "object" &&
+      data !== null &&
+      "ok" in data &&
+      Boolean((data as { ok?: boolean }).ok)
+    )
+  ) {
     const description =
       typeof data === "object" &&
       data !== null &&
@@ -120,9 +101,7 @@ async function sendTelegramNotification(params: {
         ? (data as { description: string }).description
         : "Telegram sendMessage failed";
 
-    throw new Error(
-      `${description} (status ${response.status}, body ${typeof data === "string" ? data : JSON.stringify(data)})`
-    );
+    throw new Error(description);
   }
 
   return data;
@@ -241,11 +220,31 @@ export async function POST(request: Request) {
       attachments,
     });
 
-    const telegramText = buildTelegramMessage(payload, photoFiles.length);
+    const telegramText =
+      `New booking request\n` +
+      `Name: ${payload.fullName}\n` +
+      `Phone: ${payload.phone}\n` +
+      `Email: ${payload.email}\n` +
+      `Service: ${payload.serviceType}\n` +
+      `Date: ${payload.preferredDate}\n` +
+      `Photos: ${attachments.length}\n` +
+      `Message: ${payload.message || "-"}`;
+
     try {
-      await sendTelegramNotification({ text: telegramText });
+      await sendTelegramNotification(telegramText);
     } catch (telegramError) {
-      console.error("[Telegram] Notification failed:", telegramError);
+      console.error("Telegram failed:", telegramError);
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Telegram failed",
+          telegramError:
+            telegramError instanceof Error
+              ? telegramError.message
+              : String(telegramError),
+        },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json({ ok: true });
