@@ -49,6 +49,50 @@ function escapeHtml(value: string): string {
     .replaceAll("'", "&#39;");
 }
 
+function buildTelegramMessage(payload: BookingPayload, photoCount: number): string {
+  const compactMessage = payload.message || "No message provided.";
+
+  return [
+    "New booking request",
+    `Name: ${payload.fullName}`,
+    `Phone: ${payload.phone}`,
+    `Email: ${payload.email}`,
+    `Service: ${payload.serviceType}`,
+    `Preferred date: ${payload.preferredDate}`,
+    `Photos: ${photoCount}`,
+    `Message: ${compactMessage}`,
+  ].join("\n");
+}
+
+async function sendTelegramNotification(params: {
+  token: string;
+  chatId: string;
+  text: string;
+}) {
+  const response = await fetch(
+    `https://api.telegram.org/bot${params.token}/sendMessage`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        chat_id: params.chatId,
+        text: params.text,
+      }),
+    }
+  );
+
+  if (!response.ok) {
+    const errorText = await response.text().catch(() => "");
+    throw new Error(
+      `Telegram sendMessage failed with status ${response.status}${
+        errorText ? `: ${errorText}` : ""
+      }`
+    );
+  }
+}
+
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();
@@ -161,6 +205,22 @@ export async function POST(request: Request) {
       `,
       attachments,
     });
+
+    const telegramToken = process.env.TELEGRAM_BOT_TOKEN;
+    const telegramChatId = process.env.TELEGRAM_CHAT_ID;
+
+    if (telegramToken && telegramChatId) {
+      const telegramText = buildTelegramMessage(payload, photoFiles.length);
+      try {
+        await sendTelegramNotification({
+          token: telegramToken,
+          chatId: telegramChatId,
+          text: telegramText,
+        });
+      } catch (telegramError) {
+        console.error("Telegram notification failed", telegramError);
+      }
+    }
 
     return NextResponse.json({ ok: true });
   } catch (error) {
