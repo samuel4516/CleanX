@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { Buffer } from "node:buffer";
+import { google } from "googleapis";
 
 type BookingPayload = {
   fullName: string;
@@ -105,6 +106,58 @@ async function sendTelegramNotification(text: string) {
   }
 
   return data;
+}
+
+async function appendLeadToSheet(params: {
+  payload: BookingPayload;
+  attachmentCount: number;
+}) {
+  const spreadsheetId = process.env.GOOGLE_SHEETS_SPREADSHEET_ID;
+  const serviceAccountEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
+  const privateKeyRaw = process.env.GOOGLE_PRIVATE_KEY;
+
+  if (!spreadsheetId) {
+    throw new Error("Missing GOOGLE_SHEETS_SPREADSHEET_ID");
+  }
+
+  if (!serviceAccountEmail) {
+    throw new Error("Missing GOOGLE_SERVICE_ACCOUNT_EMAIL");
+  }
+
+  if (!privateKeyRaw) {
+    throw new Error("Missing GOOGLE_PRIVATE_KEY");
+  }
+
+  const privateKey = privateKeyRaw.replace(/\\n/g, "\n");
+  const auth = new google.auth.JWT({
+    email: serviceAccountEmail,
+    key: privateKey,
+    scopes: ["https://www.googleapis.com/auth/spreadsheets"],
+  });
+
+  const sheets = google.sheets({ version: "v4", auth });
+
+  await sheets.spreadsheets.values.append({
+    spreadsheetId,
+    range: "Sheet1!A:J",
+    valueInputOption: "USER_ENTERED",
+    requestBody: {
+      values: [
+        [
+          new Date().toISOString(),
+          params.payload.fullName,
+          params.payload.phone,
+          params.payload.email,
+          params.payload.serviceType,
+          params.payload.preferredDate,
+          params.payload.message || "",
+          params.attachmentCount,
+          "New",
+          "Website",
+        ],
+      ],
+    },
+  });
 }
 
 export async function POST(request: Request) {
@@ -219,6 +272,15 @@ export async function POST(request: Request) {
       `,
       attachments,
     });
+
+    try {
+      await appendLeadToSheet({
+        payload,
+        attachmentCount: attachments.length,
+      });
+    } catch (sheetsError) {
+      console.error("Google Sheets lead logging failed:", sheetsError);
+    }
 
     const customerSubject = "We received your request — CleanX Reinigung";
     const photosReviewNote =
