@@ -225,36 +225,49 @@ export async function POST(request: Request) {
       attachments.length > 0
         ? "We received your uploaded photos and will review them before preparing an estimate."
         : "If you uploaded photos, we will review them before preparing an estimate.";
+    const customerEmail = payload.email.trim();
 
-    try {
-      await resend.emails.send({
-        from: fromEmail,
-        to: [payload.email],
-        subject: customerSubject,
-        html: `
-          <h2>Thank you for your request!</h2>
-          <p>Hello ${safePayload.fullName},</p>
-          <p>We have received your booking request for <strong>${safePayload.serviceType}</strong>.</p>
-          <p>Our team will review your details and get back to you as soon as possible.</p>
-          <p><strong>Preferred date:</strong> ${safePayload.preferredDate}</p>
-          <p>${escapeHtml(photosReviewNote)}</p>
-          <p>Best regards,<br/>CleanX Reinigung</p>
-        `,
-        text: [
-          "Thank you for your request!",
-          "",
-          `Hello ${payload.fullName},`,
-          `We have received your booking request for ${payload.serviceType}.`,
-          "Our team will review your details and get back to you as soon as possible.",
-          `Preferred date: ${payload.preferredDate}`,
-          photosReviewNote,
-          "",
-          "Best regards,",
-          "CleanX Reinigung",
-        ].join("\n"),
+    if (!customerEmail || !EMAIL_REGEX.test(customerEmail)) {
+      console.error("Customer confirmation email skipped due to invalid recipient:", {
+        customerEmail,
       });
-    } catch (customerEmailError) {
-      console.error("Customer confirmation email failed:", customerEmailError);
+    } else {
+      const autoReplyRecipients = Array.from(new Set([customerEmail, leadsToEmail]));
+      console.log("Auto-reply email recipient (customer):", customerEmail);
+      console.log("Auto-reply email recipients (debug):", autoReplyRecipients);
+
+      try {
+        const autoReplyResult = await resend.emails.send({
+          from: fromEmail,
+          to: autoReplyRecipients,
+          subject: customerSubject,
+          html: `
+            <h2>Thank you for your request!</h2>
+            <p>Hello ${safePayload.fullName},</p>
+            <p>We have received your booking request for <strong>${safePayload.serviceType}</strong>.</p>
+            <p>Our team will review your details and get back to you as soon as possible.</p>
+            <p><strong>Preferred date:</strong> ${safePayload.preferredDate}</p>
+            <p>${escapeHtml(photosReviewNote)}</p>
+            <p>Best regards,<br/>CleanX Reinigung</p>
+          `,
+          text: [
+            "Thank you for your request!",
+            "",
+            `Hello ${payload.fullName},`,
+            `We have received your booking request for ${payload.serviceType}.`,
+            "Our team will review your details and get back to you as soon as possible.",
+            `Preferred date: ${payload.preferredDate}`,
+            photosReviewNote,
+            "",
+            "Best regards,",
+            "CleanX Reinigung",
+          ].join("\n"),
+        });
+
+        console.log("Auto-reply result:", autoReplyResult);
+      } catch (customerEmailError) {
+        console.error("Customer confirmation email failed:", customerEmailError);
+      }
     }
 
     const telegramText =
