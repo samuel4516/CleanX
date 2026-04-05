@@ -113,35 +113,47 @@ async function appendLeadToSheet(params: {
   attachmentCount: number;
 }) {
   const spreadsheetId = process.env.GOOGLE_SHEETS_SPREADSHEET_ID;
-  const serviceAccountEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
-  const privateKey = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n");
+  const serviceAccountJson = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
 
   console.log("[Sheets] spreadsheet id exists:", Boolean(spreadsheetId));
-  console.log("[Sheets] service account email exists:", Boolean(serviceAccountEmail));
-  console.log("[Sheets] private key exists:", Boolean(privateKey));
-  console.log(
-    "[Sheets] private key has BEGIN marker:",
-    Boolean(privateKey?.includes("-----BEGIN PRIVATE KEY-----"))
-  );
-  console.log(
-    "[Sheets] private key has END marker:",
-    Boolean(privateKey?.includes("-----END PRIVATE KEY-----"))
-  );
+  console.log("[Sheets] service account json exists:", Boolean(serviceAccountJson));
 
   if (!spreadsheetId) {
     throw new Error("Missing GOOGLE_SHEETS_SPREADSHEET_ID");
   }
 
-  if (!serviceAccountEmail) {
-    throw new Error("Missing GOOGLE_SERVICE_ACCOUNT_EMAIL");
+  if (!serviceAccountJson) {
+    throw new Error("Missing GOOGLE_SERVICE_ACCOUNT_JSON");
   }
 
-  if (!privateKey) {
-    throw new Error("Missing GOOGLE_PRIVATE_KEY");
+  let credentials: { client_email?: unknown; private_key?: unknown };
+
+  try {
+    credentials = JSON.parse(serviceAccountJson) as {
+      client_email?: unknown;
+      private_key?: unknown;
+    };
+  } catch {
+    throw new Error("Invalid GOOGLE_SERVICE_ACCOUNT_JSON");
   }
+
+  const clientEmail =
+    typeof credentials.client_email === "string" ? credentials.client_email : "";
+  const privateKeyRaw =
+    typeof credentials.private_key === "string" ? credentials.private_key : "";
+
+  if (!clientEmail) {
+    throw new Error("GOOGLE_SERVICE_ACCOUNT_JSON missing client_email");
+  }
+
+  if (!privateKeyRaw) {
+    throw new Error("GOOGLE_SERVICE_ACCOUNT_JSON missing private_key");
+  }
+
+  const privateKey = privateKeyRaw.replace(/\\n/g, "\n");
 
   const auth = new google.auth.JWT({
-    email: serviceAccountEmail,
+    email: clientEmail,
     key: privateKey,
     scopes: ["https://www.googleapis.com/auth/spreadsheets"],
   });
