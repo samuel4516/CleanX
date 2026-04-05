@@ -114,7 +114,19 @@ async function appendLeadToSheet(params: {
 }) {
   const spreadsheetId = process.env.GOOGLE_SHEETS_SPREADSHEET_ID;
   const serviceAccountEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
-  const privateKeyRaw = process.env.GOOGLE_PRIVATE_KEY;
+  const privateKey = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n");
+
+  console.log("[Sheets] spreadsheet id exists:", Boolean(spreadsheetId));
+  console.log("[Sheets] service account email exists:", Boolean(serviceAccountEmail));
+  console.log("[Sheets] private key exists:", Boolean(privateKey));
+  console.log(
+    "[Sheets] private key has BEGIN marker:",
+    Boolean(privateKey?.includes("-----BEGIN PRIVATE KEY-----"))
+  );
+  console.log(
+    "[Sheets] private key has END marker:",
+    Boolean(privateKey?.includes("-----END PRIVATE KEY-----"))
+  );
 
   if (!spreadsheetId) {
     throw new Error("Missing GOOGLE_SHEETS_SPREADSHEET_ID");
@@ -124,11 +136,10 @@ async function appendLeadToSheet(params: {
     throw new Error("Missing GOOGLE_SERVICE_ACCOUNT_EMAIL");
   }
 
-  if (!privateKeyRaw) {
+  if (!privateKey) {
     throw new Error("Missing GOOGLE_PRIVATE_KEY");
   }
 
-  const privateKey = privateKeyRaw.replace(/\\n/g, "\n");
   const auth = new google.auth.JWT({
     email: serviceAccountEmail,
     key: privateKey,

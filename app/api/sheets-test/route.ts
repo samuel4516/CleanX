@@ -11,6 +11,14 @@ export async function GET() {
   console.log("[Sheets Test] spreadsheet id exists:", Boolean(spreadsheetId));
   console.log("[Sheets Test] service account email exists:", Boolean(serviceAccountEmail));
   console.log("[Sheets Test] private key exists:", Boolean(privateKey));
+  console.log(
+    "[Sheets Test] private key has BEGIN marker:",
+    Boolean(privateKey?.includes("-----BEGIN PRIVATE KEY-----"))
+  );
+  console.log(
+    "[Sheets Test] private key has END marker:",
+    Boolean(privateKey?.includes("-----END PRIVATE KEY-----"))
+  );
   console.log("[Sheets Test] spreadsheet id value:", spreadsheetId);
   console.log("[Sheets Test] target range:", TARGET_RANGE);
 
