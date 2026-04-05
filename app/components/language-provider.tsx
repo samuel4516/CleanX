@@ -19,8 +19,33 @@ const LANGUAGE_STORAGE_KEY = "site-language";
 
 const LanguageContext = createContext<LanguageContextValue | null>(null);
 
-function normalizeLanguage(value: string | null): SiteLanguage {
-  return value === "en" ? "en" : "de";
+function parseStoredLanguage(value: string | null): SiteLanguage | null {
+  if (value === "en" || value === "de") {
+    return value;
+  }
+  return null;
+}
+
+function detectBrowserLanguage(): SiteLanguage {
+  if (typeof navigator === "undefined") {
+    return "de";
+  }
+
+  const preferredLanguage =
+    Array.isArray(navigator.languages) && navigator.languages.length > 0
+      ? navigator.languages[0]
+      : navigator.language;
+  const normalizedLanguage = (preferredLanguage || "").toLowerCase();
+
+  if (normalizedLanguage.startsWith("de")) {
+    return "de";
+  }
+
+  if (normalizedLanguage.startsWith("en")) {
+    return "en";
+  }
+
+  return "de";
 }
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
@@ -29,8 +54,15 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     try {
       const storedLanguage = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
-      const nextLanguage = normalizeLanguage(storedLanguage);
-      setLanguage(nextLanguage);
+      const storedResolved = parseStoredLanguage(storedLanguage);
+
+      if (storedResolved) {
+        setLanguage(storedResolved);
+        return;
+      }
+
+      const detectedLanguage = detectBrowserLanguage();
+      setLanguage(detectedLanguage);
     } catch {
       setLanguage("de");
     }
