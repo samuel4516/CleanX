@@ -20,11 +20,11 @@ const LANGUAGE_STORAGE_KEY = "site-language";
 const LanguageContext = createContext<LanguageContextValue | null>(null);
 
 function normalizeLanguage(value: string | null): SiteLanguage {
-  return value === "de" ? "de" : "en";
+  return value === "en" ? "en" : "de";
 }
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguage] = useState<SiteLanguage>("en");
+  const [language, setLanguage] = useState<SiteLanguage>("de");
 
   useEffect(() => {
     try {
@@ -32,7 +32,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       const nextLanguage = normalizeLanguage(storedLanguage);
       setLanguage(nextLanguage);
     } catch {
-      setLanguage("en");
+      setLanguage("de");
     }
   }, []);
 

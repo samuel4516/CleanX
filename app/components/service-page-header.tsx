@@ -33,7 +33,7 @@ export default function ServicePageHeader() {
   const pathname = usePathname();
   const { language, setLanguage } = useLanguage();
   const isGerman = language === "de";
-  const labels = HEADER_TRANSLATIONS[language] ?? HEADER_TRANSLATIONS.en;
+  const labels = HEADER_TRANSLATIONS[language] ?? HEADER_TRANSLATIONS.de;
 
   const handleLanguageToggle = () => {
     setLanguage(isGerman ? "en" : "de");

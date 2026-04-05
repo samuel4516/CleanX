@@ -58,8 +58,8 @@ const TEMPLATE_LABELS = {
 export default function ServicePageTemplate({ content }: ServicePageTemplateProps) {
   const { language } = useLanguage();
 
-  const pageContent = content[language] ?? content.en;
-  const labels = TEMPLATE_LABELS[language] ?? TEMPLATE_LABELS.en;
+  const pageContent = content[language] ?? content.de;
+  const labels = TEMPLATE_LABELS[language] ?? TEMPLATE_LABELS.de;
 
   return (
     <>

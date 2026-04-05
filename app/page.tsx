@@ -691,7 +691,7 @@ const RESET_UPLOAD_FEEDBACK_TEXT = "No files selected yet";
 export default function Home() {
   const { language } = useLanguage();
 
-  const pageMarkup = HOME_MARKUP[language] ?? HOME_MARKUP.en;
+  const pageMarkup = HOME_MARKUP[language] ?? HOME_MARKUP.de;
 
   useEffect(() => {
     const navLinks = Array.from(
@@ -703,7 +703,7 @@ export default function Home() {
     const successMessage = document.getElementById("form-success");
     const preferredDateInput = document.getElementById("preferred-date") as HTMLInputElement | null;
     const revealItems = Array.from(document.querySelectorAll<HTMLElement>(".reveal"));
-    const text = FORM_TEXT[language] ?? FORM_TEXT.en;
+    const text = FORM_TEXT[language] ?? FORM_TEXT.de;
 
     if (preferredDateInput) {
       const localToday = new Date();

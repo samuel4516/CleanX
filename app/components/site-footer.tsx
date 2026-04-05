@@ -30,7 +30,7 @@ const FOOTER_TRANSLATIONS = {
 
 export default function SiteFooter() {
   const { language } = useLanguage();
-  const labels = FOOTER_TRANSLATIONS[language] ?? FOOTER_TRANSLATIONS.en;
+  const labels = FOOTER_TRANSLATIONS[language] ?? FOOTER_TRANSLATIONS.de;
 
   return (
     <footer className="site-footer">
