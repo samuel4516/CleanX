@@ -58,6 +58,9 @@ export default function SiteFooter() {
             <li>
               <Link href="/datenschutz">Datenschutz</Link>
             </li>
+            <li>
+              <Link href="/impressum">Impressum</Link>
+            </li>
           </ul>
         </div>
 
