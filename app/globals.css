@@ -831,6 +831,7 @@ textarea {
 
 .calendar-popover {
   position: relative;
+  width: 100%;
 }
 
 .calendar-input-icon {
@@ -877,10 +878,15 @@ textarea {
 }
 
 .calendar-widget {
+  width: 100%;
   padding: 0.9rem;
   border-radius: 16px;
   border: 1px solid rgba(113, 134, 158, 0.2);
   background: rgba(255, 255, 255, 0.86);
+}
+
+#preferred-date-calendar {
+  width: 100%;
 }
 
 .calendar-toolbar {
@@ -1431,6 +1437,19 @@ textarea {
 
   .booking-form .form-row {
     justify-items: center;
+  }
+
+  #preferred-date-calendar,
+  .booking-form .calendar-popover {
+    width: 100%;
+    justify-self: stretch;
+  }
+
+  .booking-form .calendar-popover-panel {
+    left: 0;
+    right: 0;
+    width: 100%;
+    min-width: 100%;
   }
 
   .booking-form .form-row label,
