@@ -633,6 +633,30 @@ const GERMAN_REPLACEMENTS: ReadonlyArray<readonly [string, string]> = [
   ["Careful work standards for homes and commercial spaces", "Sorgfältige Arbeitsstandards für Wohn- und Gewerberäume"],
   ["Flexible appointments based on your schedule", "Flexible Termine passend zu Ihrem Zeitplan"],
   ["Visible improvements across cleaning and home-service jobs", "Sichtbare Verbesserungen bei Reinigungs- und Hausservice-Aufträgen"],
+  [
+    "Example placeholder visuals showing the kind of detail and finish\n              clients expect from our team in Munich.",
+    "Beispielhafte Platzhalter zeigen den Detailgrad und die Qualität,\n              die Kundinnen und Kunden von unserem Team in München erwarten.",
+  ],
+  ["Upholstery refresh", "Polsterreinigung Ergebnis"],
+  [
+    "Improved appearance and freshness on daily-use seating.",
+    "Verbesserte Optik und spürbare Frische bei täglich genutzten Sitzmöbeln.",
+  ],
+  ["Deep cleaning result", "Ergebnis der Grundreinigung"],
+  [
+    "Reduced buildup and restored a cleaner overall finish.",
+    "Ablagerungen reduziert und ein insgesamt saubereres Ergebnis erzielt.",
+  ],
+  ["Post-renovation cleanup", "Reinigung nach Renovierung"],
+  [
+    "Removed dust residue and prepared the space for handover.",
+    "Staub und Rückstände entfernt und den Raum für die Übergabe vorbereitet.",
+  ],
+  ["Window service finish", "Fensterreinigung Ergebnis"],
+  [
+    "Cleaner glass and brighter interior light after treatment.",
+    "Sauberere Glasflächen und mehr Helligkeit im Innenraum nach der Reinigung.",
+  ],
   ["Trusted by households, tenants, and local businesses in Munich", "Vertrauenswürdig für Haushalte, Mieter und lokale Unternehmen in München"],
   ["Select a service", "Leistung auswählen"],
   ["Contact", "Kontakt"],
