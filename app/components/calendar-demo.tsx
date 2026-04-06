@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { CalendarDays } from "lucide-react";
 
 import { Calendar } from "@/components/ui/calendar";
 
@@ -74,6 +75,7 @@ const CalendarDemo = ({
 
   return (
     <div className="calendar-popover" ref={popoverRef}>
+      <CalendarDays className="calendar-input-icon" aria-hidden="true" />
       <input
         type="text"
         readOnly
