@@ -824,6 +824,35 @@ textarea {
   background: #fff;
 }
 
+.calendar-date-field {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.calendar-native-input {
+  width: 100%;
+  padding: 0.95rem 1rem;
+  border-radius: 16px;
+  border: 1px solid rgba(113, 134, 158, 0.2);
+  background: rgba(255, 255, 255, 0.86);
+  color: var(--text);
+  transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+
+.calendar-native-input:focus {
+  outline: none;
+  border-color: rgba(79, 134, 174, 0.55);
+  box-shadow: 0 0 0 4px rgba(79, 134, 174, 0.12);
+  background: #fff;
+}
+
+.calendar-date-caption {
+  margin: 0;
+  font-size: 0.76rem;
+  color: var(--muted);
+  text-align: center;
+}
+
 .field-error {
   min-height: 1.1rem;
   color: #ab4d4d;

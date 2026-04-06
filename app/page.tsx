@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
+import { createRoot, type Root } from "react-dom/client";
+import CalendarDemo from "./components/calendar-demo";
 import ServicePageHeader from "./components/service-page-header";
 import { useLanguage, type SiteLanguage } from "./components/language-provider";
 
@@ -405,12 +407,8 @@ const ENGLISH_MARKUP = `
 
               <div class="form-row">
                 <label for="preferred-date">Preferred date</label>
-                <input
-                  id="preferred-date"
-                  name="preferredDate"
-                  type="date"
-                  required
-                />
+                <input id="preferred-date" name="preferredDate" type="hidden" required />
+                <div id="preferred-date-calendar"></div>
                 <small class="field-error" id="error-preferred-date"></small>
               </div>
             </div>
@@ -688,6 +686,20 @@ const SUBMIT_SUCCESS_TEXT = "Thank you! Your request has been sent.";
 const SUBMIT_ERROR_TEXT = "Something went wrong. Please try again.";
 const RESET_UPLOAD_FEEDBACK_TEXT = "No files selected yet";
 
+function formatDateValue(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function parseDateValue(value: string): Date | undefined {
+  if (!value) return undefined;
+  const [year, month, day] = value.split("-").map(Number);
+  if (!year || !month || !day) return undefined;
+  return new Date(year, month - 1, day);
+}
+
 export default function Home() {
   const { language } = useLanguage();
 
@@ -702,13 +714,32 @@ export default function Home() {
     const uploadFeedback = document.getElementById("upload-feedback");
     const successMessage = document.getElementById("form-success");
     const preferredDateInput = document.getElementById("preferred-date") as HTMLInputElement | null;
+    const preferredDateCalendarHost = document.getElementById("preferred-date-calendar");
     const revealItems = Array.from(document.querySelectorAll<HTMLElement>(".reveal"));
     const text = FORM_TEXT[language] ?? FORM_TEXT.de;
 
-    if (preferredDateInput) {
-      const localToday = new Date();
-      localToday.setMinutes(localToday.getMinutes() - localToday.getTimezoneOffset());
-      preferredDateInput.min = localToday.toISOString().split("T")[0];
+    let preferredDateCalendarRoot: Root | null = null;
+    let resetPreferredDateCalendar: (() => void) | null = null;
+
+    if (preferredDateInput && preferredDateCalendarHost) {
+      preferredDateCalendarRoot = createRoot(preferredDateCalendarHost);
+      preferredDateCalendarRoot.render(
+        <CalendarDemo
+          language={language}
+          initialDate={parseDateValue(preferredDateInput.value) ?? new Date()}
+          onDateChange={(selectedDate) => {
+            preferredDateInput.value = selectedDate ? formatDateValue(selectedDate) : "";
+            preferredDateInput.dispatchEvent(new Event("input", { bubbles: true }));
+          }}
+          registerReset={(resetFn) => {
+            resetPreferredDateCalendar = () => {
+              resetFn();
+              preferredDateInput.value = formatDateValue(new Date());
+              preferredDateInput.dispatchEvent(new Event("input", { bubbles: true }));
+            };
+          }}
+        />
+      );
     }
 
     const navLinkHandlers = new Map<HTMLAnchorElement, EventListener>();
@@ -843,6 +874,7 @@ export default function Home() {
           successMessage.classList.remove("is-error");
           successMessage.classList.add("is-success");
           bookingForm.reset();
+          resetPreferredDateCalendar?.();
 
           if (uploadFeedback) {
             uploadFeedback.textContent = RESET_UPLOAD_FEEDBACK_TEXT;
@@ -907,6 +939,7 @@ export default function Home() {
         field.removeEventListener("blur", onBlur);
       });
 
+      preferredDateCalendarRoot?.unmount();
       observer?.disconnect();
     };
   }, [language]);
