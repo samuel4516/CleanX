@@ -69,7 +69,7 @@ export default function ServicePageHeader() {
         <div className="header-actions-mobile">
           <Link
             className="mobile-quote-cta"
-            href={toHomeSection("#quote-form")}
+            href={toHomeSection("#booking-form")}
             onClick={closeMenu}
           >
             {labels.mobileQuote}
@@ -112,10 +112,10 @@ export default function ServicePageHeader() {
           <Link href={toHomeSection("#reviews")} onClick={closeMenu}>
             {labels.reviews}
           </Link>
-          <Link href={toHomeSection("#quote-form")} onClick={closeMenu}>
+          <Link href={toHomeSection("#booking-form")} onClick={closeMenu}>
             {labels.quote}
           </Link>
-          <Link className="nav-cta" href={toHomeSection("#quote-form")} onClick={closeMenu}>
+          <Link className="nav-cta" href={toHomeSection("#booking-form")} onClick={closeMenu}>
             {labels.book}
           </Link>
           <button

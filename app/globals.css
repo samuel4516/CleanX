@@ -766,7 +766,7 @@ textarea {
   align-items: start;
 }
 
-.booking-section#quote-form {
+#booking-form {
   scroll-margin-top: calc(var(--header-height) + 24px);
 }
 

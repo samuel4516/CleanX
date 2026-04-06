@@ -20,8 +20,8 @@ const ENGLISH_MARKUP = `
             </p>
 
             <div class="hero-actions">
-              <a class="btn btn-primary" href="#quote-form">Get a Quote</a>
-              <a class="btn btn-secondary" href="#quote-form">Book Now</a>
+              <a class="btn btn-primary" href="#booking-form">Get a Quote</a>
+              <a class="btn btn-secondary" href="#booking-form">Book Now</a>
             </div>
 
             <ul class="hero-highlights" aria-label="Key service highlights">
@@ -344,7 +344,7 @@ const ENGLISH_MARKUP = `
         </div>
       </section>
 
-      <section class="section booking-section" id="quote-form">
+      <section class="section booking-section">
         <div class="container booking-grid">
           <div class="booking-copy reveal">
             <span class="eyebrow">Booking &amp; quote request</span>

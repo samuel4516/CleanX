@@ -53,7 +53,7 @@ export default function SiteFooter() {
               <Link href="/#reviews">{labels.reviews}</Link>
             </li>
             <li>
-              <Link href="/#quote-form">{labels.quote}</Link>
+              <Link href="/#booking-form">{labels.quote}</Link>
             </li>
             <li>
               <Link href="/datenschutz">Datenschutz</Link>

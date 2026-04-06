@@ -71,7 +71,7 @@ export default function ServicePageTemplate({ content }: ServicePageTemplateProp
               <h1>{pageContent.title}</h1>
               <p>{pageContent.subtitle}</p>
               <div className="hero-actions">
-                <Link className="btn btn-primary" href="/#quote-form">
+                <Link className="btn btn-primary" href="/#booking-form">
                   {labels.quote}
                 </Link>
               </div>
@@ -143,7 +143,7 @@ export default function ServicePageTemplate({ content }: ServicePageTemplateProp
                 {labels.readyToBook} {pageContent.title}?
               </h2>
               <p>{labels.ctaCopy}</p>
-              <Link className="btn btn-primary" href="/#quote-form">
+              <Link className="btn btn-primary" href="/#booking-form">
                 {labels.quote}
               </Link>
             </div>
