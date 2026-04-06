@@ -12,6 +12,25 @@ type BookingPayload = {
   message: string;
 };
 
+type WebhookPhotoMetadata = {
+  filename: string;
+  type: string;
+  size: number;
+};
+
+type BookingWebhookPayload = {
+  submittedAt: string;
+  fullName: string;
+  phone: string;
+  email: string;
+  serviceType: string;
+  preferredDate: string;
+  message: string;
+  photosCount: number;
+  photos: WebhookPhotoMetadata[];
+  source: "website";
+};
+
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MAX_PHOTO_FILES = 8;
 const MAX_PHOTO_FILE_SIZE_BYTES = 5 * 1024 * 1024;
@@ -183,6 +202,36 @@ async function appendLeadToSheet(params: {
   });
 }
 
+async function triggerWebhook(payload: BookingWebhookPayload) {
+  const webhookUrl = process.env.WEBHOOK_URL;
+
+  if (!webhookUrl) {
+    console.warn("WEBHOOK_URL is missing. Skipping webhook trigger.");
+    return;
+  }
+
+  const response = await fetch(webhookUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  console.log("[Webhook] HTTP status:", response.status);
+
+  const responseBody = await response.text();
+  console.log("[Webhook] Response body:", responseBody);
+
+  if (!response.ok) {
+    throw new Error(
+      `Webhook request failed with status ${response.status}${
+        responseBody ? `: ${responseBody}` : ""
+      }`
+    );
+  }
+}
+
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();
@@ -295,6 +344,29 @@ export async function POST(request: Request) {
       `,
       attachments,
     });
+
+    const webhookPayload: BookingWebhookPayload = {
+      submittedAt: new Date().toISOString(),
+      fullName: payload.fullName,
+      phone: payload.phone,
+      email: payload.email,
+      serviceType: payload.serviceType,
+      preferredDate: payload.preferredDate,
+      message: payload.message,
+      photosCount: photoFiles.length,
+      photos: photoFiles.map((file) => ({
+        filename: file.name,
+        type: file.type || "application/octet-stream",
+        size: file.size,
+      })),
+      source: "website",
+    };
+
+    try {
+      await triggerWebhook(webhookPayload);
+    } catch (webhookError) {
+      console.error("Webhook trigger failed:", webhookError);
+    }
 
     try {
       await appendLeadToSheet({
