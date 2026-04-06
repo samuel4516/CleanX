@@ -722,11 +722,14 @@ export default function Home() {
     let resetPreferredDateCalendar: (() => void) | null = null;
 
     if (preferredDateInput && preferredDateCalendarHost) {
+      const initialCalendarDate =
+        parseDateValue(preferredDateInput.value) ?? new Date();
+      preferredDateInput.value = formatDateValue(initialCalendarDate);
       preferredDateCalendarRoot = createRoot(preferredDateCalendarHost);
       preferredDateCalendarRoot.render(
         <CalendarDemo
           language={language}
-          initialDate={parseDateValue(preferredDateInput.value) ?? new Date()}
+          initialDate={initialCalendarDate}
           onDateChange={(selectedDate) => {
             preferredDateInput.value = selectedDate ? formatDateValue(selectedDate) : "";
             preferredDateInput.dispatchEvent(new Event("input", { bubbles: true }));
