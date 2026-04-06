@@ -69,20 +69,18 @@ function escapeHtml(value: string): string {
     .replaceAll("'", "&#39;");
 }
 
-async function sendTelegramNotification(text: string) {
+async function sendTelegramMessage(chatId: string, text: string) {
   const token = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
 
   console.log("Telegram token exists:", Boolean(token));
-  console.log("Telegram chat id exists:", Boolean(chatId));
-  console.log("Telegram chat id value:", chatId);
+  console.log("Telegram target chat id:", chatId);
 
   if (!token) {
     throw new Error("Missing TELEGRAM_BOT_TOKEN");
   }
 
   if (!chatId) {
-    throw new Error("Missing TELEGRAM_CHAT_ID");
+    throw new Error("Missing Telegram target chat id");
   }
 
   const response = await fetch(
@@ -438,10 +436,27 @@ export async function POST(request: Request) {
       `💬 Message:\n` +
       `${payload.message || "-"}`;
 
-    try {
-      await sendTelegramNotification(telegramText);
-    } catch (telegramError) {
-      console.error("Telegram failed:", telegramError);
+    const personalTelegramChatId = process.env.TELEGRAM_CHAT_ID;
+    const groupTelegramChatId = process.env.TELEGRAM_GROUP_CHAT_ID;
+
+    if (!personalTelegramChatId) {
+      console.error("TELEGRAM_CHAT_ID is missing. Skipping personal Telegram notification.");
+    } else {
+      try {
+        await sendTelegramMessage(personalTelegramChatId, telegramText);
+      } catch (telegramError) {
+        console.error("Personal Telegram notification failed:", telegramError);
+      }
+    }
+
+    if (!groupTelegramChatId) {
+      console.warn("TELEGRAM_GROUP_CHAT_ID is missing. Skipping group Telegram notification.");
+    } else {
+      try {
+        await sendTelegramMessage(groupTelegramChatId, telegramText);
+      } catch (groupTelegramError) {
+        console.error("Group Telegram notification failed:", groupTelegramError);
+      }
     }
 
     return NextResponse.json({ ok: true });
