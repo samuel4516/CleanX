@@ -285,10 +285,11 @@ const ENGLISH_MARKUP = `
         <div class="container">
           <div class="section-heading reveal">
             <span class="eyebrow">Customer reviews</span>
+            <p class="reviews-proof">⭐ 4.9 / 5 from local customer reviews</p>
             <h2>Trusted by households, tenants, and local businesses in Munich</h2>
             <p>
-              Clients choose us for reliable planning, careful execution, and
-              clear communication from quote to completion.
+              Clients choose us for fast replies, careful work, and clear
+              communication from quote to completion.
             </p>
           </div>
 
@@ -296,11 +297,12 @@ const ENGLISH_MARKUP = `
             <article class="testimonial-card reveal">
               <div class="stars" aria-label="5 star rating">★★★★★</div>
               <p>
-                “Our beige sofa looked tired after years of daily use. CleanX
-                made it look fresher and handled the fabric very carefully.”
+                “Our beige sofa looked noticeably worn after years of use.
+                CleanX refreshed it visibly and handled everything with great
+                care.”
               </p>
               <div class="testimonial-meta">
-                <strong>Anna Weber</strong>
+                <strong>Anna Weber, Munich</strong>
                 <span>Upholstery cleaning</span>
               </div>
             </article>
@@ -308,11 +310,11 @@ const ENGLISH_MARKUP = `
             <article class="testimonial-card reveal">
               <div class="stars" aria-label="5 star rating">★★★★★</div>
               <p>
-                “We booked deep cleaning and window service for our office.
-                Communication was fast and the final result was excellent.”
+                “We booked deep cleaning and window cleaning for our office.
+                Communication was fast, and the final result was excellent.”
               </p>
               <div class="testimonial-meta">
-                <strong>Markus Hoffmann</strong>
+                <strong>Markus Hoffmann, Munich</strong>
                 <span>Deep cleaning + windows</span>
               </div>
             </article>
@@ -320,11 +322,11 @@ const ENGLISH_MARKUP = `
             <article class="testimonial-card reveal">
               <div class="stars" aria-label="5 star rating">★★★★★</div>
               <p>
-                “We needed move-out cleaning on short notice. The team was
+                “We needed a move-out cleaning on short notice. The team was
                 punctual, careful, and the handover went smoothly.”
               </p>
               <div class="testimonial-meta">
-                <strong>Sophie Keller</strong>
+                <strong>Sophie Keller, Munich</strong>
                 <span>Move-out cleaning</span>
               </div>
             </article>
@@ -332,11 +334,11 @@ const ENGLISH_MARKUP = `
             <article class="testimonial-card reveal">
               <div class="stars" aria-label="5 star rating">★★★★★</div>
               <p>
-                “After renovation, we booked post-construction cleaning and a
-                few small repairs. Everything looked ready to use the same day.”
+                “After renovation, we booked a cleanup plus small repairs.
+                Everything was ready to use the same day.”
               </p>
               <div class="testimonial-meta">
-                <strong>Daniel Schmid</strong>
+                <strong>Daniel Schmid, Munich</strong>
                 <span>Post-renovation + repairs</span>
               </div>
             </article>
@@ -658,6 +660,110 @@ const GERMAN_REPLACEMENTS: ReadonlyArray<readonly [string, string]> = [
     "Sauberere Glasflächen und mehr Helligkeit im Innenraum nach der Reinigung.",
   ],
   ["Trusted by households, tenants, and local businesses in Munich", "Vertrauenswürdig für Haushalte, Mieter und lokale Unternehmen in München"],
+  ["⭐ 4.9 / 5 from local customer reviews", "⭐ 4,9 / 5 aus Kundenbewertungen in München"],
+  [
+    "Clients choose us for fast replies, careful work, and clear\n              communication from quote to completion.",
+    "Unsere Kundinnen und Kunden schätzen schnelle Rückmeldungen,\n              sorgfältige Arbeit und klare Kommunikation von der Anfrage bis zum Abschluss.",
+  ],
+  [
+    "“Our beige sofa looked noticeably worn after years of use.\n                CleanX refreshed it visibly and handled everything with great\n                care.”",
+    "„Unser beiges Sofa sah nach Jahren der Nutzung deutlich abgenutzt aus.\n                CleanX hat es sichtbar aufgefrischt und sehr sorgfältig behandelt.“",
+  ],
+  ["Anna Weber, Munich", "Anna Weber, München"],
+  ["Upholstery cleaning", "Polsterreinigung"],
+  [
+    "“We booked deep cleaning and window cleaning for our office.\n                Communication was fast, and the final result was excellent.”",
+    "„Wir haben eine Grundreinigung und Fensterreinigung für unser Büro gebucht.\n                Die Kommunikation war schnell und das Ergebnis wirklich top.“",
+  ],
+  ["Markus Hoffmann, Munich", "Markus Hoffmann, München"],
+  ["Deep cleaning + windows", "Grundreinigung + Fensterreinigung"],
+  [
+    "“We needed a move-out cleaning on short notice. The team was\n                punctual, careful, and the handover went smoothly.”",
+    "„Wir brauchten kurzfristig eine Auszugsreinigung. Das Team war pünktlich,\n                sorgfältig und die Wohnungsübergabe lief problemlos.“",
+  ],
+  ["Sophie Keller, Munich", "Sophie Keller, München"],
+  ["Move-out cleaning", "Auszugsreinigung"],
+  [
+    "“After renovation, we booked a cleanup plus small repairs.\n                Everything was ready to use the same day.”",
+    "„Nach der Renovierung haben wir eine Reinigung plus kleinere Reparaturen\n                gebucht. Alles war am selben Tag einsatzbereit.“",
+  ],
+  ["Daniel Schmid, Munich", "Daniel Schmid, München"],
+  ["Post-renovation + repairs", "Reinigung nach Renovierung + Kleinreparaturen"],
+  [
+    "Book trusted cleaning and practical home services with one reliable\n              team. We offer fast booking, transparent estimates, careful work,\n              and quality results for homes and small businesses across Munich.",
+    "Buchen Sie zuverlässige Reinigung und praktische Hausservices bei einem\n              verlässlichen Team. Wir bieten schnelle Terminvergabe, transparente\n              Angebote, sorgfältige Arbeit und hochwertige Ergebnisse für Wohnungen\n              und kleine Unternehmen in München.",
+  ],
+  [
+    "Tell us what you need, upload one or more photos when helpful,\n                and receive a clear estimate before booking. We keep communication\n                simple, quick, and professional.",
+    "Sagen Sie uns, was Sie benötigen, laden Sie bei Bedarf ein oder mehrere\n                Fotos hoch und erhalten Sie vor der Buchung ein klares Angebot.\n                Unsere Kommunikation bleibt einfach, schnell und professionell.",
+  ],
+  [
+    "From upholstery and deep cleaning to move-out cleans, windows,\n                post-renovation jobs, small repairs, and furniture assembly.",
+    "Von Polster- und Tiefenreinigung über Auszugsreinigung und Fenster bis\n                zu Reinigung nach Renovierung, Kleinreparaturen und Möbelmontage.",
+  ],
+  [
+    "Choose the service you need and get a clear quote before booking.\n              Every service card below leads to a dedicated page with details.",
+    "Wählen Sie die passende Leistung und erhalten Sie vor der Buchung ein\n              klares Angebot. Jede Leistungskarte führt zu einer eigenen Detailseite.",
+  ],
+  [
+    "Sofa, chair, and mattress care with fabric-safe products and\n                deep extraction methods.",
+    "Reinigung von Sofa, Stühlen und Matratzen mit materialschonenden Mitteln\n                und gründlicher Tiefenextraktion.",
+  ],
+  [
+    "Intensive home cleaning for kitchens, bathrooms, floors, and\n                neglected areas that need full attention.",
+    "Intensive Reinigung für Küche, Bad, Böden und stark beanspruchte Bereiche,\n                die besondere Aufmerksamkeit benötigen.",
+  ],
+  [
+    "Interior and accessible exterior window cleaning for brighter\n                rooms and streak-free glass surfaces.",
+    "Innen- und erreichbare Außenfensterreinigung für hellere Räume und\n                streifenfreie Glasflächen.",
+  ],
+  [
+    "End-of-tenancy cleaning focused on handover readiness for\n                renters, landlords, and property managers.",
+    "Auszugsreinigung mit Fokus auf eine reibungslose Übergabe für Mieter,\n                Vermieter und Hausverwaltungen.",
+  ],
+  [
+    "Dust and residue removal after renovation, painting, or repair\n                work so your space is ready to use.",
+    "Entfernung von Staub und Rückständen nach Renovierung, Maler- oder\n                Reparaturarbeiten, damit der Raum sofort nutzbar ist.",
+  ],
+  [
+    "Small wall touch-ups, patching, and practical fixes to improve\n                the look and function of your space.",
+    "Kleine Ausbesserungen an Wänden, Spachtelarbeiten und praktische Reparaturen,\n                um Optik und Funktion Ihres Raums zu verbessern.",
+  ],
+  [
+    "Professional assembly for flat-pack furniture, shelves, and\n                home-office setups with careful handling.",
+    "Professionelle Montage von Möbeln, Regalen und Home-Office-Setups mit\n                sorgfältiger Ausführung.",
+  ],
+  [
+    "We combine cleaning expertise with practical home-service support,\n              so you can solve multiple tasks with one trusted local team.",
+    "Wir verbinden Reinigungsexpertise mit praktischer Hausservice-Unterstützung,\n              damit Sie mehrere Aufgaben mit einem verlässlichen lokalen Team lösen können.",
+  ],
+  [
+    "Select the service you need, add any details, and upload photos\n              where helpful. We use this to send a clear, transparent estimate.",
+    "Wählen Sie die gewünschte Leistung, ergänzen Sie wichtige Details und laden\n              Sie bei Bedarf Fotos hoch. So können wir ein klares, transparentes Angebot erstellen.",
+  ],
+  [
+    "Photos of the full room, item, or work area",
+    "Fotos vom gesamten Raum, Objekt oder Arbeitsbereich",
+  ],
+  [
+    "Close-up images of problem spots or damaged areas",
+    "Nahaufnahmen von Problemstellen oder beschädigten Bereichen",
+  ],
+  [
+    "Your preferred date and key access information",
+    "Ihr Wunschtermin und wichtige Informationen zum Zugang",
+  ],
+  [
+    "Tell us what service you need, your location in Munich, and any details we should know.",
+    "Teilen Sie uns mit, welche Leistung Sie brauchen, Ihren Standort in München und alle Details, die wir wissen sollten.",
+  ],
+  [
+    "Local cleaning and home-services company for Munich apartments,\n              houses, rentals, offices, and commercial spaces.",
+    "Lokales Reinigungs- und Hausservice-Unternehmen für Münchner Wohnungen,\n              Häuser, Mietobjekte, Büros und Gewerbeflächen.",
+  ],
+  ["Munich, Germany", "München, Deutschland"],
+  ["Cleaning &amp; Home Leistungen in Munich", "Reinigungs- &amp; Hausservices in München"],
+  ["Request Buchung", "Buchung anfragen"],
   ["Select a service", "Leistung auswählen"],
   ["Contact", "Kontakt"],
 ];
